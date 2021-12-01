@@ -62,8 +62,6 @@ parser code {:
 
 //---------------------------------Terminales-------------------------------------------------------------------------
 
-terminal PARENTIZQ;
-terminal PARENTDER;
 terminal PTOCOMA;
 terminal LPAREN;
 terminal RPAREN;
@@ -128,7 +126,7 @@ Declaraciones::= Declaracion Declaraciones | Declaracion;
 
 Declaracion::= INT ID PTOCOMA;
 
-Cuerpo::= MAIN PARENTIZQ PARENTDER LPAREN BloqueSentencias RPAREN;
+Cuerpo::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE;
 
 BloqueSentencias::= Sentencias | ;
 
