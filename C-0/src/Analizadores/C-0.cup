@@ -1,0 +1,285 @@
+package Analizadores;
+
+import java_cup.runtime.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Vector;
+import java.io.IOException;
+import java.lang.Math;
+
+
+//Requerimientos de CUP
+parser code {:
+    static TablaSimbolos ts;
+    static CodigoIntermedio codigoIntermedio;
+    static String ficheroCodigoIntermedio=null;
+    static String codFuente;
+
+    public void error(String mensaje) {
+        System.out.println("ERROR lin:"+InformacionCodigo.linea+
+        " tok:"+InformacionCodigo.token+" => "+mensaje);
+    }
+
+    public static void inicializar() throws IOException {
+        ts = new TablaSimbolos();
+        codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
+        codigoIntermedio.abrirFicheroEscritura();
+    }
+
+    public static void main(String args[]) throws Exception {
+        if (args.length != 1) {
+            System.out.println("Falta fichero");
+        } else {
+            try {
+                Yylex lexico = new Yylex(new FileReader(args[0]));
+                String name = (String) args[0];
+                codFuente = name.substring(0, name.lastIndexOf("."));
+                ficheroCodigoIntermedio = codFuente + ".log";
+                inicializar();
+                new Analizador_Sintactico(lexico).parse();
+            } catch (FileNotFoundException e1) {
+                System.out.println("Fichero no abierto");
+            }
+        }
+    }
+
+    
+    public void report_error(String message, Object info) {
+        error(message);
+    } 
+ 
+    public void syntax_error(Symbol actual) {
+        error("Error SINTACTICO");
+    } 
+
+    public void report_fatal_error(String message, Object info) {
+        error(message);
+    } 
+ 
+    public void unrecovered_syntax_error(Symbol actual) {
+    } 
+:};
+
+//---------------------------------Terminales-------------------------------------------------------------------------
+
+terminal PARENTIZQ;
+terminal PARENTDER;
+terminal PTOCOMA;
+terminal LPAREN;
+terminal RPAREN;
+terminal PRODUCTO;
+terminal SUMA;
+terminal DIVISION;
+terminal RESTA;
+terminal MENOR;
+terminal MAYOR;
+terminal IGUAL;
+terminal DISTINTO;
+terminal OR;
+terminal AND;
+terminal ASIGNAR;
+terminal CADENA;
+terminal LLLAVE, RLLAVE;
+
+terminal MAIN;
+terminal IF;
+terminal WHILE;
+terminal ELSE;
+terminal PUTW;
+terminal PUTS;
+terminal INT;
+terminal BREAK;
+terminal NUMERO;
+
+terminal String ID;
+terminal String ENTERO;
+terminal String CADENATEXTO;
+
+//---------------------------------NO Terminales-------------------------------------------------------------------------
+
+non terminal Programa, Declaraciones, Cuerpo;
+non terminal Declaracion;
+non terminal BloqueSentencias;
+non terminal Sentencias, Sentencia;
+non terminal Expresion;
+non terminal Expresion Condicion;
+non terminal SentIf, SentElse;
+non terminal SentWhile;
+non terminal SentAsignacion;
+non terminal SentPutw, SentPuts;
+non terminal SentBreak;
+
+
+//Precedencias
+precedence left ASIGNAR;
+precedence left OR, AND;
+precedence left IGUAL, DISTINTO, MAYOR, MENOR;     
+precedence left SUMA, RESTA;
+precedence left PRODUCTO, DIVISION;
+precedence left LPAREN, RPAREN;
+
+
+//Gramática
+start with Programa;  //A
+
+Programa::= Declaraciones Cuerpo | Cuerpo;  //A
+
+Declaraciones::= Declaracion Declaraciones | Declaracion;
+
+Declaracion::= INT ID PTOCOMA;
+
+Cuerpo::= MAIN PARENTIZQ PARENTDER LPAREN BloqueSentencias RPAREN;
+
+BloqueSentencias::= Sentencias | ;
+
+Sentencias::= Sentencia Sentencias | Sentencia;
+
+
+Expresion ::= Expresion:e1 SUMA Expresion:e2 
+			{:
+				
+			:}
+              |
+		  Expresion:e1 RESTA Expresion:e2 
+			{:
+				
+			:}
+		  |
+              Expresion:e1 PRODUCTO Expresion:e2 
+			{:
+				
+			:}
+		  |
+		  Expresion:e1 DIVISION Expresion:e2 
+			{:
+				
+			:}
+		  |
+		  ENTERO:e 
+			{:
+				
+			:}
+		  |
+		  ID:id 
+			{:
+				
+			:}
+		  |
+	   	  LPAREN Expresion:e RPAREN 
+			{:
+				
+			:}
+		  ;
+
+Condicion ::= Condicion:c1 OR Condicion:c2 
+			{:
+				
+			:}
+	        |
+		  Condicion:c1 AND Condicion:c2 
+			{:
+				
+			:}
+		  |
+      	  Expresion:e1 IGUAL Expresion:e2 
+			{:
+				
+			:}
+		  |
+		  Expresion:e1 DISTINTO Expresion:e2 
+			{:
+				
+			:}
+		  |
+		  Expresion:e1 MAYOR Expresion:e2 
+			{:
+				
+			:}
+		  |
+		  Expresion:e1 MENOR Expresion:e2 
+			{:
+				
+			:}
+		  |
+		  LPAREN Condicion:c RPAREN
+			{:
+				
+			:}
+              ;
+
+SentIf ::= IF LPAREN 
+			{:
+				
+			:}
+           Condicion:c 
+			{:
+				
+			:}
+	     RPAREN LLLAVE BloqueSentencias RLLAVE 
+			{:
+				
+			:}
+	     SentElse
+			{:
+				
+			:}
+           ;
+
+SentElse ::= ELSE LLLAVE BloqueSentencias RLLAVE |;
+
+SentWhile ::= WHILE LPAREN 
+			{:
+				
+			:}
+		  Condicion:c
+			{:
+				
+			:} 
+		  RPAREN LLLAVE 
+			{:
+				
+			:}
+		  BloqueSentencias 
+			{:
+				
+			:}
+		  RLLAVE
+			{:
+				
+			:}
+		  ;
+
+SentAsignacion ::= ID:id
+				{:
+					
+				:} 
+			 ASIGNAR Expresion:e PTOCOMA
+				{:
+					
+				:}
+                   ;
+
+SentPutw ::= PUTW LPAREN Expresion:e 
+			{:
+				
+			:}
+	       RPAREN PTOCOMA;
+
+SentPuts ::= PUTS LPAREN CADENATEXTO:c
+			{:
+				
+			:}
+	       RPAREN PTOCOMA;
+
+SentBreak ::= BREAK 
+			{:
+			
+			:}
+		  PTOCOMA;
+
+Sentencia ::= SentIf |
+		  SentWhile |
+		  SentAsignacion |
+		  SentPutw |
+		  SentPuts |
+		  SentBreak;
