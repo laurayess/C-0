@@ -49,45 +49,45 @@ CadenaTexto = \"([\x20-\x21\x23-\xFE])*\"
 //-------> Delimitadores
 <YYINITIAL> "(" {  System.out.println("Reconocio " + yytext() + " LPAREN");return Token(sym.LPAREN); }
 <YYINITIAL> ")" {  System.out.println("Reconocio " + yytext() + " RPAREN");return Token(sym.RPAREN); }
-<YYINITIAL> ";" {  return Token(sym.PTOCOMA); }
+<YYINITIAL> ";" {  System.out.println("Reconocio " + yytext() + " PTOCOMA");return Token(sym.PTOCOMA); }
 <YYINITIAL> "{" {  System.out.println("Reconocio " + yytext() + " LLLAVE");return Token(sym.LLLAVE); }
 <YYINITIAL> "}" {  System.out.println("Reconocio " + yytext() + " RLLAVE");return Token(sym.RLLAVE); }
 
 //-------> Aritméticos
-<YYINITIAL> "*" { return Token(sym.PRODUCTO); }
-<YYINITIAL> "+" {  return Token(sym.SUMA); }
-<YYINITIAL> "/" { return Token(sym.DIVISION); }
-<YYINITIAL> "-" {  return Token(sym.RESTA); }
+<YYINITIAL> "*" {  System.out.println("Reconocio " + yytext() + " PRODUCTO");return Token(sym.PRODUCTO); }
+<YYINITIAL> "+" {  System.out.println("Reconocio " + yytext() + " SUMA");return Token(sym.SUMA); }
+<YYINITIAL> "/" {  System.out.println("Reconocio " + yytext() + " DIVISION");return Token(sym.DIVISION); }
+<YYINITIAL> "-" {  System.out.println("Reconocio " + yytext() + " RESTA");return Token(sym.RESTA); }
 
 //-------> Relacionales
-<YYINITIAL> "<" { return Token(sym.MENOR); }
-<YYINITIAL> ">" { return Token(sym.MAYOR); }
-<YYINITIAL> "==" { return Token(sym.IGUAL); }
-<YYINITIAL> "¡=" { return Token(sym.DISTINTO); }
+<YYINITIAL> "<" {  System.out.println("Reconocio " + yytext() + " MENOR");return Token(sym.MENOR); }
+<YYINITIAL> ">" {  System.out.println("Reconocio " + yytext() + " MAYOR");return Token(sym.MAYOR); }
+<YYINITIAL> "==" {  System.out.println("Reconocio " + yytext() + " IGUAL");return Token(sym.IGUAL); }
+<YYINITIAL> "¡=" {  System.out.println("Reconocio " + yytext() + " DISTINTO");return Token(sym.DISTINTO); }
 
 //-------> Lógicos
-<YYINITIAL> "||" { return Token(sym.OR); }
-<YYINITIAL> "&&" { return Token(sym.AND); }
+<YYINITIAL> "||" {  System.out.println("Reconocio " + yytext() + " OR");return Token(sym.OR); }
+<YYINITIAL> "&&" {  System.out.println("Reconocio " + yytext() + " AND");return Token(sym.AND); }
 
 //-------> Asignación
-<YYINITIAL> "=" {   return Token(sym.ASIGNAR); }
+<YYINITIAL> "=" {   System.out.println("Reconocio " + yytext() + " ASIGNAR"); return Token(sym.ASIGNAR); }
 
 //-------> Constantes
-<YYINITIAL> {CadenaTexto} {  return Token(sym.CADENA); }
+<YYINITIAL> {CadenaTexto} {  System.out.println("Reconocio " + yytext() + " CADENA"); return Token(sym.CADENA); }
 
 //-------> Reservadas
 <YYINITIAL> main {  System.out.println("Reconocio " + yytext() + " main"); return Token(sym.MAIN); }
-<YYINITIAL> if {  return Token(sym.IF); }
-<YYINITIAL> while {  return Token(sym.WHILE); }
-<YYINITIAL> else {  return Token(sym.ELSE); }
-<YYINITIAL> putw {  return Token(sym.PUTW); }
-<YYINITIAL> puts {  return Token(sym.PUTS); }
-<YYINITIAL> int {  return Token(sym.INT); }
-<YYINITIAL> break {  return Token(sym.BREAK); }
+<YYINITIAL> if {  System.out.println("Reconocio " + yytext() + " IF");return Token(sym.IF); }
+<YYINITIAL> while {  System.out.println("Reconocio " + yytext() + " WHILE");return Token(sym.WHILE); }
+<YYINITIAL> else {  System.out.println("Reconocio " + yytext() + " ELSE");return Token(sym.ELSE); }
+<YYINITIAL> putw {  System.out.println("Reconocio " + yytext() + " PUTW");return Token(sym.PUTW); }
+<YYINITIAL> puts {  System.out.println("Reconocio " + yytext() + " PUTS");return Token(sym.PUTS); }
+<YYINITIAL> int {  System.out.println("Reconocio " + yytext() + " INT");return Token(sym.INT); }
+<YYINITIAL> break {  System.out.println("Reconocio " + yytext() + " BREAK");return Token(sym.BREAK); }
 
 //-------> Otros
-<YYINITIAL> {Identificador} {return Token(sym.ID);}
-<YYINITIAL> {Digito}+ { return Token(sym.NUMERO); }
+<YYINITIAL> {Identificador} {System.out.println("Reconocio " + yytext() + " ID");return Token(sym.ID);}
+<YYINITIAL> {Digito}+ { System.out.println("Reconocio " + yytext() + " NUMERO");return Token(sym.NUMERO); }
 <YYINITIAL> {EspacioOTerminador}+ { }
 <YYINITIAL> [^] {System.err.println("Carácter no permitido: "+yytext()); }
 

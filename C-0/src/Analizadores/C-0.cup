@@ -36,7 +36,7 @@ parser code {:
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
-                new Analizador_Sintactico(lexico).parse();
+                new parser(lexico).parse();
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }
@@ -100,7 +100,7 @@ non terminal Declaracion;
 non terminal BloqueSentencias;
 non terminal Sentencias, Sentencia;
 non terminal Expresion;
-non terminal Expresion Condicion;
+non terminal Condicion;
 non terminal SentIf, SentElse;
 non terminal SentWhile;
 non terminal SentAsignacion;
@@ -138,10 +138,8 @@ Expresion ::= Expresion:e1 SUMA Expresion:e2
 				
 			:}
               |
-		  Expresion:e1 RESTA Expresion:e2 
-			{:
-				
-			:}
+		  Expresion RESTA Expresion
+			
 		  |
               Expresion:e1 PRODUCTO Expresion:e2 
 			{:
