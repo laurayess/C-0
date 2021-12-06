@@ -7,7 +7,111 @@ import java.util.Vector;
 import java.io.IOException;
 import java.lang.Math;
 
+action code {:
+	//CODIGO INTERMEDIO PARA LAS EXPRESIONES
 
+	//Bloques IF-THEN-ELSE
+	int cuentaIf;
+	Pila pilaIf;
+
+	void inicializar() {
+		cuentaIf = 0;
+		pilaIf = new Pila();
+	}
+
+	//CONDICIÓN OR
+	Expresion or(Expresion c1,Expresion c2) {
+		cuentaDirecciones++;  //DIRECCIÓN INICIALIZADA EN 9999, SE ASGINA ASÍ PORQUE ANTES DE ASIGNAR LA DIRECCIPÓN INCREMENTA EN 1 PARA QUE SEA 10000
+		//INSTANCIA DE LA CLASE CUADRUPLA (NOMBRE DE LA OP, OP1, OP2, RESULTADO)
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“OR”,
+		String.valueOf(c1.getDireccion()),
+		String.valueOf(c2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//CONDICIÓN AND
+	Expresion and(Expresion c1,Expresion c2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“AND”,
+		String.valueOf(c1.getDireccion()),
+		String.valueOf(c2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}	
+
+	//MAYOR > 
+	Expresion mayor(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“MAYOR”,
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//MENOR <
+	Expresion menor(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“MENOR”,
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//IGUAL == 
+	Expresion igual(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“IGUAL”,
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//DISTINTO !=
+	Expresion distinto(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“DISTINTO”,
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	void asignacion(String id,Expresion e) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		“CARGAR_DIRECCION”,
+		String.valueOf(e.getDireccion()),null,
+		String.valueOf((tabla.getSimbolo(id)).getDireccion())));
+	}
+
+	//METODOS PARA EL CI DE UNA INSTRUCCION IF-THEN-ELSE
+	void condicion(Expresion e,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"SALTAR_CONDICION",
+			String.valueOf(e.getDireccion()),
+			null,
+			"ELSE_"+String.valueOf(n)));
+	} 
+	
+	void saltarEtiqueta(String eti,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"SALTAR_ETIQUETA",
+			null,
+			null,
+			eti+"_"+String.valueOf(n)));
+	} 
+	
+	void ponerEtiqueta(String eti,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		"ETIQUETA",
+		null,
+		null,
+		eti+"_"+String.valueOf(n)));
+	}
+:}
 //Requerimientos de CUP
 parser code {:
     static TablaSimbolos ts;
@@ -205,23 +309,26 @@ Condicion ::= Condicion:c1 OR Condicion:c2
 			:}
               ;
 
-SentIf ::= IF LPAREN 
-			{:
-				
-			:}
-           Condicion:c 
-			{:
-				
-			:}
-	     RPAREN LLLAVE BloqueSentencias RLLAVE 
-			{:
-				
-			:}
-	     SentElse
-			{:
-				
-			:}
-           ;
+SentIf ::= IF LPAREN
+		{:
+			cuentaIf++;
+			pilaIf.apilar(cuentaIf);
+		:}
+			Condicion:c
+		{:
+			condicion(c,pilaIf.verCima());
+		:}
+			RPAREN LLLAVE BloqueSentencias RLLAVE
+		{:
+			saltarEtiqueta("FINIF",pilaIf.verCima());
+			ponerEtiqueta("ELSE",pilaIf.verCima());
+		:}
+			SentElse
+		{:
+			ponerEtiqueta("FINIF",pilaIf.verCima());
+			pilaIf.desapilar();
+		:}
+		;
 
 SentElse ::= ELSE LLLAVE BloqueSentencias RLLAVE |;
 
