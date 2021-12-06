@@ -47,7 +47,7 @@ CadenaTexto = \"([\x20-\x21\x23-\xFE])*\"
 //---------------------------> Simbolos
 
 //-------> Delimitadores
-<YYINITIAL> "(" {  System.out.println("Reconocio " + yytext() + " LPAREN");return Token(sym.LPAREN); }
+<YYINITIAL> "(" {  System.out.println("Reconocio " + yytext() + " LPARENT");return Token(sym.LPAREN); }
 <YYINITIAL> ")" {  System.out.println("Reconocio " + yytext() + " RPAREN");return Token(sym.RPAREN); }
 <YYINITIAL> ";" {  System.out.println("Reconocio " + yytext() + " PTOCOMA");return Token(sym.PTOCOMA); }
 <YYINITIAL> "{" {  System.out.println("Reconocio " + yytext() + " LLLAVE");return Token(sym.LLLAVE); }
@@ -73,7 +73,7 @@ CadenaTexto = \"([\x20-\x21\x23-\xFE])*\"
 <YYINITIAL> "=" {   System.out.println("Reconocio " + yytext() + " ASIGNAR"); return Token(sym.ASIGNAR); }
 
 //-------> Constantes
-<YYINITIAL> {CadenaTexto} {  System.out.println("Reconocio " + yytext() + " CADENA"); return Token(sym.CADENA); }
+<YYINITIAL> {CadenaTexto} {  System.out.println("Reconocio " + yytext() + " CADENATEXTO"); return Token(sym.CADENATEXTO); }
 
 //-------> Reservadas
 <YYINITIAL> main {  System.out.println("Reconocio " + yytext() + " main"); return Token(sym.MAIN); }
@@ -87,7 +87,7 @@ CadenaTexto = \"([\x20-\x21\x23-\xFE])*\"
 
 //-------> Otros
 <YYINITIAL> {Identificador} {System.out.println("Reconocio " + yytext() + " ID");return Token(sym.ID);}
-<YYINITIAL> {Digito}+ { System.out.println("Reconocio " + yytext() + " NUMERO");return Token(sym.NUMERO); }
+<YYINITIAL> {Digito}+ { System.out.println("Reconocio " + yytext() + " ENTERO");return Token(sym.ENTERO); }
 <YYINITIAL> {EspacioOTerminador}+ { }
 <YYINITIAL> [^] {System.err.println("Carácter no permitido: "+yytext()); }
 

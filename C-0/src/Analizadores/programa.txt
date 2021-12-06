@@ -1,7 +1,8 @@
 int x;
 int y;
 main() {
-x=1-12;
+
+x=1212;
 y=x*32;
 x=(32/12)*y;
 if(x>7) {
@@ -12,7 +13,7 @@ break;
 }
 }
 }
-puts(“Cadena\n”);
-puts(“de texto”);
+puts("Cadena");
+puts("de texto");
 putw(x+y);
 }

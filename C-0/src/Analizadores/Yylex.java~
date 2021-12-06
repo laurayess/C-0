@@ -680,7 +680,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 31: break;
           case 3:
-            { System.out.println("Reconocio " + yytext() + " LPAREN");return Token(sym.LPAREN);
+            { System.out.println("Reconocio " + yytext() + " LPARENT");return Token(sym.LPAREN);
             }
             // fall through
           case 32: break;
@@ -690,52 +690,52 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 33: break;
           case 5:
-            { return Token(sym.PRODUCTO);
+            { System.out.println("Reconocio " + yytext() + " PRODUCTO");return Token(sym.PRODUCTO);
             }
             // fall through
           case 34: break;
           case 6:
-            { return Token(sym.SUMA);
+            { System.out.println("Reconocio " + yytext() + " SUMA");return Token(sym.SUMA);
             }
             // fall through
           case 35: break;
           case 7:
-            { return Token(sym.RESTA);
+            { System.out.println("Reconocio " + yytext() + " RESTA");return Token(sym.RESTA);
             }
             // fall through
           case 36: break;
           case 8:
-            { return Token(sym.DIVISION);
+            { System.out.println("Reconocio " + yytext() + " DIVISION");return Token(sym.DIVISION);
             }
             // fall through
           case 37: break;
           case 9:
-            { return Token(sym.NUMERO);
+            { System.out.println("Reconocio " + yytext() + " ENTERO");return Token(sym.ENTERO);
             }
             // fall through
           case 38: break;
           case 10:
-            { return Token(sym.PTOCOMA);
+            { System.out.println("Reconocio " + yytext() + " PTOCOMA");return Token(sym.PTOCOMA);
             }
             // fall through
           case 39: break;
           case 11:
-            { return Token(sym.MENOR);
+            { System.out.println("Reconocio " + yytext() + " MENOR");return Token(sym.MENOR);
             }
             // fall through
           case 40: break;
           case 12:
-            { return Token(sym.ASIGNAR);
+            { System.out.println("Reconocio " + yytext() + " ASIGNAR"); return Token(sym.ASIGNAR);
             }
             // fall through
           case 41: break;
           case 13:
-            { return Token(sym.MAYOR);
+            { System.out.println("Reconocio " + yytext() + " MAYOR");return Token(sym.MAYOR);
             }
             // fall through
           case 42: break;
           case 14:
-            { return Token(sym.ID);
+            { System.out.println("Reconocio " + yytext() + " ID");return Token(sym.ID);
             }
             // fall through
           case 43: break;
@@ -750,42 +750,42 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 45: break;
           case 17:
-            { return Token(sym.CADENA);
+            { System.out.println("Reconocio " + yytext() + " CADENATEXTO"); return Token(sym.CADENA);
             }
             // fall through
           case 46: break;
           case 18:
-            { return Token(sym.AND);
+            { System.out.println("Reconocio " + yytext() + " AND");return Token(sym.AND);
             }
             // fall through
           case 47: break;
           case 19:
-            { return Token(sym.IGUAL);
+            { System.out.println("Reconocio " + yytext() + " IGUAL");return Token(sym.IGUAL);
             }
             // fall through
           case 48: break;
           case 20:
-            { return Token(sym.IF);
+            { System.out.println("Reconocio " + yytext() + " IF");return Token(sym.IF);
             }
             // fall through
           case 49: break;
           case 21:
-            { return Token(sym.OR);
+            { System.out.println("Reconocio " + yytext() + " OR");return Token(sym.OR);
             }
             // fall through
           case 50: break;
           case 22:
-            { return Token(sym.INT);
+            { System.out.println("Reconocio " + yytext() + " INT");return Token(sym.INT);
             }
             // fall through
           case 51: break;
           case 23:
-            { return Token(sym.DISTINTO);
+            { System.out.println("Reconocio " + yytext() + " DISTINTO");return Token(sym.DISTINTO);
             }
             // fall through
           case 52: break;
           case 24:
-            { return Token(sym.ELSE);
+            { System.out.println("Reconocio " + yytext() + " ELSE");return Token(sym.ELSE);
             }
             // fall through
           case 53: break;
@@ -795,22 +795,22 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 54: break;
           case 26:
-            { return Token(sym.PUTS);
+            { System.out.println("Reconocio " + yytext() + " PUTS");return Token(sym.PUTS);
             }
             // fall through
           case 55: break;
           case 27:
-            { return Token(sym.PUTW);
+            { System.out.println("Reconocio " + yytext() + " PUTW");return Token(sym.PUTW);
             }
             // fall through
           case 56: break;
           case 28:
-            { return Token(sym.BREAK);
+            { System.out.println("Reconocio " + yytext() + " BREAK");return Token(sym.BREAK);
             }
             // fall through
           case 57: break;
           case 29:
-            { return Token(sym.WHILE);
+            { System.out.println("Reconocio " + yytext() + " WHILE");return Token(sym.WHILE);
             }
             // fall through
           case 58: break;

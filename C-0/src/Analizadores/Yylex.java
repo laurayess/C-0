@@ -680,7 +680,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 31: break;
           case 3:
-            { System.out.println("Reconocio " + yytext() + " LPAREN");return Token(sym.LPAREN);
+            { System.out.println("Reconocio " + yytext() + " LPARENT");return Token(sym.LPAREN);
             }
             // fall through
           case 32: break;
@@ -710,7 +710,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 37: break;
           case 9:
-            { System.out.println("Reconocio " + yytext() + " NUMERO");return Token(sym.NUMERO);
+            { System.out.println("Reconocio " + yytext() + " ENTERO");return Token(sym.ENTERO);
             }
             // fall through
           case 38: break;
@@ -750,7 +750,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 45: break;
           case 17:
-            { System.out.println("Reconocio " + yytext() + " CADENA"); return Token(sym.CADENA);
+            { System.out.println("Reconocio " + yytext() + " CADENATEXTO"); return Token(sym.CADENATEXTO);
             }
             // fall through
           case 46: break;
