@@ -19,11 +19,16 @@ public class Tipo {
         nombre = "";
     }
     
+    Tipo(int c, String n){
+        cod = c;
+        nombre = n;
+    }
+    
     void setCod(int c){
         cod = c;
     }
     
-    void serNombre(String n){
+    void setNombre(String n){
         nombre = n;
     }
     

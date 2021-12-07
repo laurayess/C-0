@@ -27,7 +27,7 @@ public class TablaSimbolos {
         Simbolo s;
         for (int i = 1; i <= tamano; i++) {
             s = (Simbolo) tabla.get(i);
-            if (s.getId().equals(identificador)) {
+            if (s.getNombre().equals(identificador)) {
                 retorno = true;
                 break;
             }
@@ -41,8 +41,8 @@ public class TablaSimbolos {
         Simbolo s;
         for (int i = 1; i <= tamano; i++) {
             s = (Simbolo) tabla.get(i);
-            if (s.getId().equals(identificador)) {
-                retorno = s.getValor();
+            if (s.getNombre().equals(identificador)) {
+                retorno = s.getCodigo();
                 break;
             }
         }
@@ -57,7 +57,7 @@ public class TablaSimbolos {
         else {
             for (int i = 1; i <= tamano; i++) {
                 s = (Simbolo) tabla.get(i);
-                if (s.getId().equals(identificador)) {
+                if (s.getNombre().equals(identificador)) {
                     tabla.put(i, new Simbolo(identificador, valor));
                     break;
                 }
@@ -69,7 +69,7 @@ public class TablaSimbolos {
         Simbolo s;
         for (int i = 1; i <= tamano; i++) {
             s = (Simbolo) tabla.get(i);
-            System.out.println(s.getId() + " " + s.getValor());
+            System.out.println(s.getNombre() + " " + s.getCodigo());
         }
     }
 }
