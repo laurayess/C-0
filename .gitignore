@@ -3,8 +3,8 @@
 
 *.vscode
 # Log file
-*parser.java
-*parser.class
+**/parser.java
+**/parser.class
 # BlueJ files
 *.ctxt
 
