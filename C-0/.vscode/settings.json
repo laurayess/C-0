@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\GEOVANNI\\Documents\\Instalacion\\java-cup-11b-runtime.jar"
+    ]
+}
