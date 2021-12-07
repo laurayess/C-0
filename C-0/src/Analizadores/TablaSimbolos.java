@@ -21,13 +21,22 @@ public class TablaSimbolos {
         }
     }
 
+    // 
+    /* public void addSimnbolo(String identificador) {
+        if (!existe(identificador)) {
+            tamano++;
+            tabla.put( new Simbolo(identificador, valor));
+            //System.out.println("Ident: " + identificador + " Valor: " + valor);
+        }
+    } */
+
     // ¿Existe un simbolo?
     public boolean existe(String identificador) {
         boolean retorno = false;
         Simbolo s;
         for (int i = 1; i <= tamano; i++) {
             s = (Simbolo) tabla.get(i);
-            if (s.getId().equals(identificador)) {
+            if (s.getNombre().equals(identificador)) {
                 retorno = true;
                 break;
             }
@@ -41,8 +50,8 @@ public class TablaSimbolos {
         Simbolo s;
         for (int i = 1; i <= tamano; i++) {
             s = (Simbolo) tabla.get(i);
-            if (s.getId().equals(identificador)) {
-                retorno = s.getValor();
+            if (s.getNombre().equals(identificador)) {
+                retorno = s.getCodigo();
                 break;
             }
         }
@@ -57,7 +66,7 @@ public class TablaSimbolos {
         else {
             for (int i = 1; i <= tamano; i++) {
                 s = (Simbolo) tabla.get(i);
-                if (s.getId().equals(identificador)) {
+                if (s.getNombre().equals(identificador)) {
                     tabla.put(i, new Simbolo(identificador, valor));
                     break;
                 }
@@ -69,7 +78,7 @@ public class TablaSimbolos {
         Simbolo s;
         for (int i = 1; i <= tamano; i++) {
             s = (Simbolo) tabla.get(i);
-            System.out.println(s.getId() + " " + s.getValor());
+            System.out.println(s.getNombre() + " " + s.getCodigo());
         }
     }
 }

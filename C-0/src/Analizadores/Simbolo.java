@@ -1,24 +1,43 @@
 package Analizadores;
 
 public class Simbolo {
-    String id;
-    int valor;
+    //Número de orden en la tabla
+    int codigo;
+    //Nombre del simbolo
+    String nombre;
+    int direccion;
 
     Simbolo() {
-        id = "";
-        valor = 0;
+        codigo = -1;
+        nombre = "";
     }
 
-    Simbolo(String id, int valor) {
-        this.id = id;
-        this.valor = valor;
+    Simbolo(String n, int c) {
+        nombre = n;
+        codigo = c;
+    }
+    
+    void setCodigo(int c){
+        codigo = c;
+    }
+    
+    void setNombre(String n){
+        nombre = n;
     }
 
-    int getValor() {
-        return valor;
+    int getCodigo() {
+        return codigo;
     }
 
-    String getId() {
-        return id;
+    String getNombre() {
+        return nombre;
+    }
+    
+    void setDireccion(int d){
+        direccion = d;
+    }
+    
+    int getDireccion(){
+        return direccion;
     }
 }
