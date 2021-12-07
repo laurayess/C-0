@@ -266,7 +266,7 @@ public class parser extends java_cup.runtime.lr_parser {
         
         if (args.length !=1) {
             System.out.println(args.length);
-            System.out.println("Falta fichero");
+            System.out.println("Falta ficheroo");
         } else {
             try {
                 Yylex lexico = new Yylex(new FileReader(args[0]));
