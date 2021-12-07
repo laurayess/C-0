@@ -1,6 +1,10 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
+<<<<<<< HEAD
         "c:\\Users\\GEOVANNI\\Documents\\Instalacion\\java-cup-11b-runtime.jar"
+=======
+        "c:\\Users\\paul_\\OneDrive\\Escritorio\\Melvin\\Septimo Semestre\\Lengujaes y Automatas\\Unidad 1\\Fuentes\\java-cup-11b-runtime.jar"
+>>>>>>> c8133e9f163a0c69b5810a6987d0829445cd9232
     ]
 }

@@ -248,7 +248,8 @@ public class parser extends java_cup.runtime.lr_parser {
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
-
+	static int cuentaWhiles;
+	
     public void error(String mensaje) {
         System.out.println("ERROR lin:"+InformacionCodigo.linea+
         " tok:"+InformacionCodigo.token+" => "+mensaje);
@@ -261,12 +262,16 @@ public class parser extends java_cup.runtime.lr_parser {
     }
 
     public static void main(String args[]) throws Exception {
-        if (args.length != 1) {
+        System.out.println(args[0]);
+        
+        if (args.length !=1) {
+            System.out.println(args.length);
             System.out.println("Falta fichero");
         } else {
             try {
                 Yylex lexico = new Yylex(new FileReader(args[0]));
                 String name = (String) args[0];
+                System.out.println(name);
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();

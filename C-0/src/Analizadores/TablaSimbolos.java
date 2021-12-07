@@ -21,6 +21,13 @@ public class TablaSimbolos {
         }
     }
 
+    // 
+     public void addSimnbolo(String identificador) {
+      
+        /* tabla.put( new Simbolo(identificador, valor)); */
+            
+    } 
+
     // ¿Existe un simbolo?
     public boolean existe(String identificador) {
         boolean retorno = false;

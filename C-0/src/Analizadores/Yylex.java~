@@ -750,7 +750,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 45: break;
           case 17:
-            { System.out.println("Reconocio " + yytext() + " CADENATEXTO"); return Token(sym.CADENA);
+            { System.out.println("Reconocio " + yytext() + " CADENATEXTO"); return Token(sym.CADENATEXTO);
             }
             // fall through
           case 46: break;

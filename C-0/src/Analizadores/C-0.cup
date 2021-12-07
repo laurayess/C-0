@@ -14,7 +14,8 @@ parser code {:
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
-
+	static int cuentaWhiles;
+	
     public void error(String mensaje) {
         System.out.println("ERROR lin:"+InformacionCodigo.linea+
         " tok:"+InformacionCodigo.token+" => "+mensaje);

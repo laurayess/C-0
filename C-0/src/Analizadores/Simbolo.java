@@ -1,23 +1,24 @@
 package Analizadores;
 
 public class Simbolo {
-    
-    int cod;
+    //Número de orden en la tabla
+    int codigo;
+    //Nombre del simbolo
     String nombre;
     int direccion;
 
     Simbolo() {
-        cod = -1;
+        codigo = -1;
         nombre = "";
     }
 
     Simbolo(String n, int c) {
         nombre = n;
-        cod = c;
+        codigo = c;
     }
     
     void setCodigo(int c){
-        cod = c;
+        codigo = c;
     }
     
     void setNombre(String n){
@@ -25,7 +26,7 @@ public class Simbolo {
     }
 
     int getCodigo() {
-        return cod;
+        return codigo;
     }
 
     String getNombre() {
