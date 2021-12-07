@@ -36,7 +36,7 @@ parser code {:
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
-                new Analizador_Sintactico(lexico).parse();
+                new parser(lexico).parse();
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }
@@ -82,7 +82,6 @@ terminal DISTINTO;
 terminal OR;
 terminal AND;
 terminal ASIGNAR;
-terminal CADENA;
 terminal LLLAVE, RLLAVE;
 
 terminal MAIN;
@@ -96,7 +95,7 @@ terminal BREAK;
 terminal NUMERO;
 
 terminal String ID;
-terminal String ENTERO;
+terminal int ENTERO;
 terminal String CADENATEXTO;
 
 //---------------------------------NO Terminales-------------------------------------------------------------------------
@@ -106,7 +105,7 @@ non terminal Declaracion;
 non terminal BloqueSentencias;
 non terminal Sentencias, Sentencia;
 non terminal Expresion;
-non terminal Expresion Condicion;
+non terminal Condicion;
 non terminal SentIf, SentElse;
 non terminal SentWhile;
 non terminal SentAsignacion;
@@ -138,16 +137,16 @@ BloqueSentencias::= Sentencias | ;
 
 Sentencias::= Sentencia Sentencias | Sentencia;
 
-
 Expresion ::= Expresion:e1 SUMA Expresion:e2 
 			{:
 				
 			:}
               |
-		  Expresion:e1 RESTA Expresion:e2 
-			{:
+		  Expresion:e1 RESTA Expresion:e2
+                        {:
 				
 			:}
+			
 		  |
               Expresion:e1 PRODUCTO Expresion:e2 
 			{:
@@ -159,7 +158,7 @@ Expresion ::= Expresion:e1 SUMA Expresion:e2
 				
 			:}
 		  |
-		  ENTERO:e 
+		  ENTERO
 			{:
 				
 			:}
@@ -253,15 +252,7 @@ SentWhile ::= WHILE LPAREN
 			:}
 		  ;
 
-SentAsignacion ::= ID:id
-				{:
-					
-				:} 
-			 ASIGNAR Expresion:e PTOCOMA
-				{:
-					
-				:}
-                   ;
+SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA;
 
 SentPutw ::= PUTW LPAREN Expresion:e 
 			{:
@@ -269,11 +260,9 @@ SentPutw ::= PUTW LPAREN Expresion:e
 			:}
 	       RPAREN PTOCOMA;
 
-SentPuts ::= PUTS LPAREN CADENATEXTO:c
-			{:
+SentPuts::= PUTS LPAREN CADENATEXTO:c {:
 				
-			:}
-	       RPAREN PTOCOMA;
+			:} RPAREN PTOCOMA;
 
 SentBreak ::= BREAK 
 			{:
