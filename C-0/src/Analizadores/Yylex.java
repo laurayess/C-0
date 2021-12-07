@@ -6,8 +6,11 @@
 //----> Paquetes, importaciones
 
 package Analizadores;
-import java_cup.runtime.*;
-import java.io.IOException;
+import java_cup.runtime.Symbol;  
+import java.lang.System;
+import java.io.*;
+
+
 
 /*-------- 2ra Area: Opciones y Declaraciones -------*/
 
@@ -735,7 +738,7 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 42: break;
           case 14:
-            { System.out.println("Reconocio " + yytext() + " ID");return Token(sym.ID);
+            { System.out.println("Reconocio " + yytext() + " ID");return new Symbol(sym.ID, yycolumn, yyline, yytext());
             }
             // fall through
           case 43: break;

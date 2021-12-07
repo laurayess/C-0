@@ -44,12 +44,12 @@ parser code {:
         }
     }
 
-	boolean existe(String id) {  
-		return ts.existeSimbolo(id);
-	}
-	void addSimbolo(String id) {
-		//ts.addSimbolo(id);
-	}
+    boolean existeSimbolo(String id) {  
+		return ts.existe(id);
+    }
+    void addSimbolo(String id) {
+		ts.addSimbolo(id);
+    }
     
     public void report_error(String message, Object info) {
         error(message);
@@ -126,11 +126,24 @@ precedence left LPAREN, RPAREN;
 //Gramática
 start with Programa;  //A
 
-Programa::= Declaraciones Cuerpo | Cuerpo;  //A
+Programa::= {:
+			inicializar();
+		 :}
+                Declaraciones Cuerpo | Cuerpo;  //A
 
 Declaraciones::= Declaracion Declaraciones | Declaracion;
 
-Declaracion::= INT ID PTOCOMA;
+Declaracion ::= INT ID:id PTOCOMA
+			{:
+                                
+				if(existeSimbolo(id)) {
+					parser.error(Texto.simboloRedeclarado);
+				} else {
+					addSimbolo(id);
+					
+				}
+			:}
+		    ;
 
 Cuerpo::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE;
 

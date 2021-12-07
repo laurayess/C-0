@@ -2,19 +2,19 @@ package Analizadores;
 
 public class Simbolo {
     //Número de orden en la tabla
-    int codigo;
+    private int codigo;
     //Nombre del simbolo
-    String nombre;
-    int direccion;
+    private String nombre;
+    private int direccion;
 
-    Simbolo() {
+    public Simbolo() {
         codigo = -1;
         nombre = "";
     }
 
-    Simbolo(String n, int c) {
-        nombre = n;
-        codigo = c;
+    public Simbolo(String n, int c) {
+        this.nombre = n;
+        this.codigo = c;
     }
     
     void setCodigo(int c){
@@ -39,5 +39,9 @@ public class Simbolo {
     
     int getDireccion(){
         return direccion;
+    }
+    
+    public String toString(){
+        return nombre;
     }
 }

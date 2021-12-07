@@ -4,79 +4,45 @@ package Analizadores;
 import java.util.*;
 
 public class TablaSimbolos {
-    public HashMap tabla;
-    public int tamano;
+    private Vector<Simbolo> tablaSimbolos;
+    private Vector tablaTipos;
 
     public TablaSimbolos() {
-        tabla = new HashMap();
-        tamano = 0;
+        //Se inicializa la taba de tipo y de simbolos
+        tablaSimbolos = new Vector();
+        tablaTipos = new Vector();
+        //Se inserta el tipo "int" que es el unico que se ocupara
+	insertarTipo("int");
     }
 
-    // Inserta un simbolo
-    public void insertar(String identificador, int valor) {
-        if (!existe(identificador)) {
-            tamano++;
-            tabla.put(tamano, new Simbolo(identificador, valor));
-            //System.out.println("Ident: " + identificador + " Valor: " + valor);
-        }
+    // Inserta un tipo
+    public void insertarTipo(String tipo){
+        tablaTipos.add(tipo);
     }
 
-    // 
-     public void addSimnbolo(String identificador) {
-      
-        /* tabla.put( new Simbolo(identificador, valor)); */
+    // Se agrega un simbolo
+     public void addSimbolo(String identificador) {
+        Simbolo sim=new Simbolo(identificador, 5);
+        tablaSimbolos.add(sim); 
             
     } 
 
     // ¿Existe un simbolo?
     public boolean existe(String identificador) {
-        boolean retorno = false;
-        Simbolo s;
-        for (int i = 1; i <= tamano; i++) {
-            s = (Simbolo) tabla.get(i);
-            if (s.getNombre().equals(identificador)) {
-                retorno = true;
-                break;
-            }
-        }
-        return retorno;
+        if(getSimbolo(identificador)!=null) return true;
+        return false;
     }
 
-    // Obtener valor
-    public int getValor(String identificador) {
-        int retorno = 0;
-        Simbolo s;
-        for (int i = 1; i <= tamano; i++) {
-            s = (Simbolo) tabla.get(i);
-            if (s.getNombre().equals(identificador)) {
-                retorno = s.getCodigo();
-                break;
-            }
+    // Obtener un simbolo a partir de su id
+    public Simbolo getSimbolo(String identificador) {
+        Simbolo simbolo = null;
+         
+        for(Simbolo s:tablaSimbolos){
+           
+            if (s.getNombre().equals(identificador))return s; 
         }
-        
-        return retorno;
+        return simbolo;
     }
 
-    public void putSimbolo(String identificador, int valor) {
-        Simbolo s;
-        if (!existe(identificador))
-            insertar(identificador, valor);
-        else {
-            for (int i = 1; i <= tamano; i++) {
-                s = (Simbolo) tabla.get(i);
-                if (s.getNombre().equals(identificador)) {
-                    tabla.put(i, new Simbolo(identificador, valor));
-                    break;
-                }
-            }
-        }
-    }
-
-    public void listar() {
-        Simbolo s;
-        for (int i = 1; i <= tamano; i++) {
-            s = (Simbolo) tabla.get(i);
-            System.out.println(s.getNombre() + " " + s.getCodigo());
-        }
-    }
+    
 }
