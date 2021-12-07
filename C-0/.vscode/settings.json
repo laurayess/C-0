@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\paul_\\OneDrive\\Escritorio\\Melvin\\Septimo Semestre\\Lengujaes y Automatas\\Unidad 1\\Fuentes\\java-cup-11b-runtime.jar"
+    ]
+}
