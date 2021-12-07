@@ -246,7 +246,7 @@ SentWhile ::= WHILE LPAREN
 			:}
 		  ;
 
-SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA;
+SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA {:System.out.println(id);:};
 
 SentPutw ::= PUTW LPAREN Expresion:e 
 			{:
