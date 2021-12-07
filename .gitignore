@@ -1,7 +1,7 @@
 # Compiled class file
 *.log
 
-*.vscode
+.vscode
 # Log file
 ./C-0/src/Analizadores/parser.java
 # BlueJ files
