@@ -2,11 +2,15 @@
 //----> Paquetes, importaciones
 
 package Analizadores;
-import java_cup.runtime.*;
-import java.io.IOException;
+import java_cup.runtime.Symbol;  
+import java.lang.System;
+import java.io.*;
+
+
 
 /*-------- 2ra Area: Opciones y Declaraciones -------*/
 %%
+
 %{
     //--> Codigo de usuario en sintaxis Java
     
@@ -86,11 +90,7 @@ CadenaTexto = \"([\x20-\x21\x23-\xFE])*\"
 <YYINITIAL> break {  System.out.println("Reconocio " + yytext() + " BREAK");return Token(sym.BREAK); }
 
 //-------> Otros
-<YYINITIAL> {Identificador} {System.out.println("Reconocio " + yytext() + " ID");return Token(sym.ID);}
+<YYINITIAL> {Identificador} {System.out.println("Reconocio " + yytext() + " ID");return new Symbol(sym.ID, yycolumn, yyline, yytext());}
 <YYINITIAL> {Digito}+ { System.out.println("Reconocio " + yytext() + " ENTERO");return Token(sym.ENTERO); }
 <YYINITIAL> {EspacioOTerminador}+ { }
 <YYINITIAL> [^] {System.err.println("Carácter no permitido: "+yytext()); }
-
-
-
-

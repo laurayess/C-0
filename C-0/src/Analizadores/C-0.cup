@@ -14,7 +14,8 @@ parser code {:
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
-
+	static int cuentaWhiles;
+	
     public void error(String mensaje) {
         System.out.println("ERROR lin:"+InformacionCodigo.linea+
         " tok:"+InformacionCodigo.token+" => "+mensaje);
@@ -43,6 +44,12 @@ parser code {:
         }
     }
 
+    boolean existeSimbolo(String id) {  
+		return ts.existe(id);
+    }
+    void addSimbolo(String id) {
+		ts.addSimbolo(id);
+    }
     
     public void report_error(String message, Object info) {
         error(message);
@@ -119,11 +126,24 @@ precedence left LPAREN, RPAREN;
 //Gramática
 start with Programa;  //A
 
-Programa::= Declaraciones Cuerpo | Cuerpo;  //A
+Programa::= {:
+			inicializar();
+		 :}
+                Declaraciones Cuerpo | Cuerpo;  //A
 
 Declaraciones::= Declaracion Declaraciones | Declaracion;
 
-Declaracion::= INT ID PTOCOMA;
+Declaracion ::= INT ID:id PTOCOMA
+			{:
+                                
+				if(existeSimbolo(id)) {
+					parser.error(Texto.simboloRedeclarado);
+				} else {
+					addSimbolo(id);
+					
+				}
+			:}
+		    ;
 
 Cuerpo::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE;
 
