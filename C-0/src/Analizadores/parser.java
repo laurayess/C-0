@@ -282,7 +282,9 @@ public class parser extends java_cup.runtime.lr_parser {
 		return ts.existe(id);
     }
     void addSimbolo(String id) {
-		ts.addSimbolo(id);
+		ts.insertarSimbolo(id);
+                Simbolo sim = ts.getSimbolo(id);
+                System.out.println("Nombre: " + sim.nombre + " Codigo" + sim.codigo);
     }
     
     public void report_error(String message, Object info) {

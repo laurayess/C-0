@@ -4,27 +4,28 @@ package Analizadores;
 import java.util.*;
 
 public class TablaSimbolos {
-    private Vector<Simbolo> tablaSimbolos;
-    private Vector tablaTipos;
+    private Vector<Simbolo> tablaDeSimbolos;
+    private Vector tablaDeTipos;
 
     public TablaSimbolos() {
         //Se inicializa la taba de tipo y de simbolos
-        tablaSimbolos = new Vector();
-        tablaTipos = new Vector();
+        tablaDeSimbolos = new Vector();
+        tablaDeTipos = new Vector();
         //Se inserta el tipo "int" que es el unico que se ocupara
 	insertarTipo("int");
     }
 
     // Inserta un tipo
-    public void insertarTipo(String tipo){
-        tablaTipos.add(tipo);
+    public void insertarTipo(String identificador){
+        //tablaDeTipos.add(tipo);
+        Tipo tipo=new Tipo(sizeTipo(), identificador);
+        tablaDeTipos.add(tipo); 
     }
 
     // Se agrega un simbolo
-     public void addSimbolo(String identificador) {
-        Simbolo sim=new Simbolo(identificador, 5);
-        tablaSimbolos.add(sim); 
-            
+     public void insertarSimbolo(String identificador) {
+        Simbolo sim=new Simbolo(identificador, sizeSimbolos());
+        tablaDeSimbolos.add(sim); 
     } 
 
     // ¿Existe un simbolo?
@@ -37,11 +38,20 @@ public class TablaSimbolos {
     public Simbolo getSimbolo(String identificador) {
         Simbolo simbolo = null;
          
-        for(Simbolo s:tablaSimbolos){
+        for(Simbolo s:tablaDeSimbolos){
            
             if (s.getNombre().equals(identificador))return s; 
         }
         return simbolo;
+        
+    }
+    
+    public int sizeSimbolos(){
+        return tablaDeSimbolos.size();
+    }
+    
+    public int sizeTipo(){
+        return tablaDeTipos.size();
     }
 
     

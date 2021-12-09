@@ -2,9 +2,9 @@ package Analizadores;
 
 public class Simbolo {
     //Número de orden en la tabla
-    private int codigo;
+    public int codigo;
     //Nombre del simbolo
-    private String nombre;
+    public String nombre;
     private int direccion;
 
     public Simbolo() {
