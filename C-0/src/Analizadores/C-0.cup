@@ -126,6 +126,15 @@ action code {:
 			null,
 			"FINBLUCLE_"+String.valueOf(n)));
 	} 
+
+	//METODO DE CI PARA LAS INSTRUCCIONES PUTW
+	void imprimirW(Expresion e) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		"IMPRIMIR_ENTERO",
+		String.valueOf(e.getDireccion()),
+		null,
+		null));
+	}
 :}
 //Requerimientos de CUP
 parser code {:
@@ -385,7 +394,7 @@ SentAsignacion ::= ID:id
 
 SentPutw ::= PUTW LPAREN Expresion:e 
 			{:
-				
+				imprimirW(e);
 			:}
 	       RPAREN PTOCOMA;
 
