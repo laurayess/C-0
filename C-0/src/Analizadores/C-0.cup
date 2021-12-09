@@ -14,16 +14,22 @@ action code {:
 	int cuentaIf;
 	Pila pilaIf;
 
+	//Bloque While
+	int cuentaBucle;
+	Pila pilaBucle;
+
 	void inicializar() {
 		cuentaIf = 0;
 		pilaIf = new Pila();
+		cuentaBucle = 0;
+		pilaBucle = new Pila();
 	}
 
 	//CONDICIÓN OR
 	Expresion or(Expresion c1,Expresion c2) {
 		cuentaDirecciones++;  //DIRECCIÓN INICIALIZADA EN 9999, SE ASGINA ASÍ PORQUE ANTES DE ASIGNAR LA DIRECCIPÓN INCREMENTA EN 1 PARA QUE SEA 10000
 		//INSTANCIA DE LA CLASE CUADRUPLA (NOMBRE DE LA OP, OP1, OP2, RESULTADO)
-		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“OR”,
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("OR",
 		String.valueOf(c1.getDireccion()),
 		String.valueOf(c2.getDireccion()),
 		String.valueOf(cuentaDirecciones)));
@@ -33,7 +39,7 @@ action code {:
 	//CONDICIÓN AND
 	Expresion and(Expresion c1,Expresion c2) {
 		cuentaDirecciones++;
-		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“AND”,
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("AND",
 		String.valueOf(c1.getDireccion()),
 		String.valueOf(c2.getDireccion()),
 		String.valueOf(cuentaDirecciones)));
@@ -43,7 +49,7 @@ action code {:
 	//MAYOR > 
 	Expresion mayor(Expresion e1,Expresion e2) {
 		cuentaDirecciones++;
-		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“MAYOR”,
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("MAYOR",
 		String.valueOf(e1.getDireccion()),
 		String.valueOf(e2.getDireccion()),
 		String.valueOf(cuentaDirecciones)));
@@ -53,7 +59,7 @@ action code {:
 	//MENOR <
 	Expresion menor(Expresion e1,Expresion e2) {
 		cuentaDirecciones++;
-		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“MENOR”,
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("MENOR",
 		String.valueOf(e1.getDireccion()),
 		String.valueOf(e2.getDireccion()),
 		String.valueOf(cuentaDirecciones)));
@@ -63,7 +69,7 @@ action code {:
 	//IGUAL == 
 	Expresion igual(Expresion e1,Expresion e2) {
 		cuentaDirecciones++;
-		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“IGUAL”,
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("IGUAL",
 		String.valueOf(e1.getDireccion()),
 		String.valueOf(e2.getDireccion()),
 		String.valueOf(cuentaDirecciones)));
@@ -73,7 +79,7 @@ action code {:
 	//DISTINTO !=
 	Expresion distinto(Expresion e1,Expresion e2) {
 		cuentaDirecciones++;
-		codigoIntermedio.guardarCuadrupla(new Cuadrupla(“DISTINTO”,
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("DISTINTO",
 		String.valueOf(e1.getDireccion()),
 		String.valueOf(e2.getDireccion()),
 		String.valueOf(cuentaDirecciones)));
@@ -82,7 +88,7 @@ action code {:
 
 	void asignacion(String id,Expresion e) {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
-		“CARGAR_DIRECCION”,
+		"CARGAR_DIRECCION",
 		String.valueOf(e.getDireccion()),null,
 		String.valueOf((tabla.getSimbolo(id)).getDireccion())));
 	}
@@ -111,6 +117,15 @@ action code {:
 		null,
 		eti+"_"+String.valueOf(n)));
 	}
+
+	//METODOS PARA EL CI DE UNA INSTRUCCIÓN DE BLOQUE WHILE
+	void condicion2(Expresion e,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"SALTAR_CONDICION",
+			String.valueOf(e.getDireccion()),
+			null,
+			"FINBLUCLE_"+String.valueOf(n)));
+	} 
 :}
 //Requerimientos de CUP
 parser code {:
@@ -332,27 +347,31 @@ SentIf ::= IF LPAREN
 
 SentElse ::= ELSE LLLAVE BloqueSentencias RLLAVE |;
 
-SentWhile ::= WHILE LPAREN 
-			{:
-				
-			:}
-		  Condicion:c
-			{:
-				
-			:} 
-		  RPAREN LLLAVE 
-			{:
-				
-			:}
-		  BloqueSentencias 
-			{:
-				
-			:}
-		  RLLAVE
-			{:
-				
-			:}
-		  ;
+SentWhile ::= WHILE LPAREN
+		{:
+			cuentaBucle++;
+			pilaBucle.apilar(cuentaBucle);
+			ponerEtiqueta(“BUCLE”,pilaBucle.verCima());
+		:}
+			Condicion:c
+		{:
+			condicion2(c,pilaBucle.verCima());
+		:}
+			RPAREN LLLAVE
+		{:
+			cuentaWhiles++;
+		:}
+			BloqueSentencias
+		{:
+			cuentaWhiles--;
+		:}
+			RLLAVE
+		{:
+			saltarEtiqueta(“BUCLE”,pilaBucle.verCima());
+			ponerEtiqueta(“FINBUCLE”,pilaBucle.verCima());
+			pilaBucle.desapilar();
+		:}
+		;
 
 SentAsignacion ::= ID:id
 				{:
