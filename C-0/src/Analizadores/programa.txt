@@ -1,5 +1,6 @@
 int x;
 int y;
+int y;
 main() {
 
 x=1212;
