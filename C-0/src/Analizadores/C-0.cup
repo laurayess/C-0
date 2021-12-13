@@ -48,7 +48,7 @@ parser code {:
 		return ts.existe(id);
     }
     void addSimbolo(String id) {
-		ts.addSimbolo(id);
+		ts.insertarSimbolo(id);
     }
     
     public void report_error(String message, Object info) {
@@ -266,7 +266,7 @@ SentWhile ::= WHILE LPAREN
 			:}
 		  ;
 
-SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA;
+SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA {:System.out.println(id);:};
 
 SentPutw ::= PUTW LPAREN Expresion:e 
 			{:
