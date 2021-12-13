@@ -14,7 +14,7 @@ parser code {:
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
-	static int cuentaWhiles;
+    static int cuentaWhiles;
 	
     public void error(String mensaje) {
         System.out.println("ERROR lin:"+InformacionCodigo.linea+
@@ -47,8 +47,8 @@ parser code {:
     boolean existeSimbolo(String id) {  
 		return ts.existe(id);
     }
-    void addSimbolo(String id) {
-		ts.addSimbolo(id);
+    void insertarSimbolo(String id) {
+		ts.insertarSimbolo(id);
     }
     
     public void report_error(String message, Object info) {
@@ -66,6 +66,14 @@ parser code {:
     public void unrecovered_syntax_error(Symbol actual) {
     } 
 :};
+
+action code {:
+
+
+
+
+
+:}
 
 //---------------------------------Terminales-------------------------------------------------------------------------
 
@@ -139,7 +147,7 @@ Declaracion ::= INT ID:id PTOCOMA
 				if(existeSimbolo(id)) {
 					parser.error(Texto.simboloRedeclarado);
 				} else {
-					addSimbolo(id);
+					insertarSimbolo(id);
 					
 				}
 			:}
@@ -254,15 +262,15 @@ SentWhile ::= WHILE LPAREN
 			:} 
 		  RPAREN LLLAVE 
 			{:
-				
+			cuentaWhiles++;	
 			:}
 		  BloqueSentencias 
 			{:
-				
+			cuentaWhiles--;		
 			:}
 		  RLLAVE
 			{:
-				
+			
 			:}
 		  ;
 
@@ -280,7 +288,10 @@ SentPuts::= PUTS LPAREN CADENATEXTO:c {:
 
 SentBreak ::= BREAK 
 			{:
-			
+			if(cuentaWhiles > 0){
+                           }else{
+                            parser.error(Texto.breakSinWhile);
+                        }       
 			:}
 		  PTOCOMA;
 

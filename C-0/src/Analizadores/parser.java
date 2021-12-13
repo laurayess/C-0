@@ -248,7 +248,7 @@ public class parser extends java_cup.runtime.lr_parser {
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
-	static int cuentaWhiles;
+    static int cuentaWhiles;
 	
     public void error(String mensaje) {
         System.out.println("ERROR lin:"+InformacionCodigo.linea+
@@ -281,10 +281,8 @@ public class parser extends java_cup.runtime.lr_parser {
     boolean existeSimbolo(String id) {  
 		return ts.existe(id);
     }
-    void addSimbolo(String id) {
+    void insertarSimbolo(String id) {
 		ts.insertarSimbolo(id);
-                Simbolo sim = ts.getSimbolo(id);
-                System.out.println("Nombre: " + sim.nombre + " Codigo" + sim.codigo);
     }
     
     public void report_error(String message, Object info) {
@@ -306,6 +304,14 @@ public class parser extends java_cup.runtime.lr_parser {
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$parser$actions {
+
+
+
+
+
+
+
+
   private final parser parser;
 
   /** Constructor */
@@ -402,7 +408,7 @@ class CUP$parser$actions {
 				if(existeSimbolo(id)) {
 					parser.error(Texto.simboloRedeclarado);
 				} else {
-					addSimbolo(id);
+					insertarSimbolo(id);
 					
 				}
 			
@@ -784,7 +790,7 @@ class CUP$parser$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 
-				
+			cuentaWhiles++;	
 			
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$6",22, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -798,7 +804,7 @@ class CUP$parser$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-5)).value;
 
-				
+			cuentaWhiles--;		
 			
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$7",23, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -814,7 +820,7 @@ class CUP$parser$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)).right;
 		Object c = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-7)).value;
 		
-				
+			
 			
               CUP$parser$result = parser.getSymbolFactory().newSymbol("SentWhile",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-10)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -896,7 +902,10 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 
-			
+			if(cuentaWhiles > 0){
+                           }else{
+                            parser.error(Texto.breakSinWhile);
+                        }       
 			
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$10",26, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

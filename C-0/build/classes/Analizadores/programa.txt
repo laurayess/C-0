@@ -14,6 +14,7 @@ break;
 }
 }
 }
+break;
 puts("Cadena");
 puts("de texto");
 putw(x+y);
