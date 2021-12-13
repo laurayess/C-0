@@ -47,6 +47,7 @@ parser code {:
     boolean existeSimbolo(String id) {  
 		return ts.existe(id);
     }
+
     void insertarSimbolo(String id) {
 		ts.insertarSimbolo(id);
     }
