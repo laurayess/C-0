@@ -23,6 +23,7 @@ parser code {:
 
     public static void inicializar() throws IOException {
         ts = new TablaSimbolos();
+        cuentaWhiles = 0;
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
     }

@@ -257,6 +257,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
     public static void inicializar() throws IOException {
         ts = new TablaSimbolos();
+        cuentaWhiles = 0;
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
     }
@@ -281,6 +282,7 @@ public class parser extends java_cup.runtime.lr_parser {
     boolean existeSimbolo(String id) {  
 		return ts.existe(id);
     }
+
     void insertarSimbolo(String id) {
 		ts.insertarSimbolo(id);
     }
