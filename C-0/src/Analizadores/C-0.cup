@@ -18,11 +18,19 @@ action code {:
 	int cuentaBucle;
 	Pila pilaBucle;
 
+	//PUTS
+	int cuentaCadenas;
+	Lista listaCadenas;
+
 	void inicializar() {
 		cuentaIf = 0;
 		pilaIf = new Pila();
+
 		cuentaBucle = 0;
 		pilaBucle = new Pila();
+
+		cuentaCadenas = 0;
+		listaCadenas = new Lista();
 	}
 
 	//CONDICIÓN OR
@@ -134,6 +142,31 @@ action code {:
 		String.valueOf(e.getDireccion()),
 		null,
 		null));
+	}
+
+	//Método de CI para IMPRIMIR INSTRUCCIONES PUTS (STRINGS)
+	void imprimirS(String c,int cuenta){
+		listaCadenas.addCadena(c);
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		"IMPRIMIR_CADENA",
+		"CADENA_"+String.valueOf(cuenta),
+		null,
+		null));
+	}
+
+	void generarCadenas() {
+		for(int i=0;i<listaCadenas.size();i++) {
+			codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"PONER_CADENA",
+			"CADENA_"+String.valueOf(i+1),
+			null,
+			listaCadenas.getCadena(i)));
+		}
+	}
+
+	//Método para cerrar el programa y deje de emitir instrucciones
+	void finPrograma() {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
 	}
 :}
 //Requerimientos de CUP
@@ -254,7 +287,14 @@ Declaraciones::= Declaracion Declaraciones | Declaracion;
 
 Declaracion::= INT ID PTOCOMA;
 
-Cuerpo::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE;
+Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias
+			{:
+				finPrograma();
+				generarCadenas();
+				cerrarCI();
+				//generarCF();
+			:}
+			RLLAVE;
 
 BloqueSentencias::= Sentencias | ;
 
@@ -400,9 +440,10 @@ SentPutw ::= PUTW LPAREN Expresion:e
 
 SentPuts ::= PUTS LPAREN CADENATEXTO:c
 			{:
-				
+				cuentaCadenas++;
+				imprimirS(c,cuentaCadenas);
 			:}
-	       RPAREN PTOCOMA;
+			RPAREN PTOCOMA;
 
 SentBreak ::= BREAK 
 			{:
