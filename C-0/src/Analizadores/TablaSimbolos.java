@@ -1,3 +1,5 @@
+
+
 package Analizadores;
 
 //Esta clase contiene la tabla de simbolos
