@@ -1,10 +1,8 @@
 package Analizadores;
 
 public class Simbolo {
-    //Número de orden en la tabla
-    public int codigo;
-    //Nombre del simbolo
-    public String nombre;
+    String nombre;
+    int codigo;
     private int direccion;
 
     public Simbolo() {
@@ -12,9 +10,20 @@ public class Simbolo {
         nombre = "";
     }
 
-    public Simbolo(String n, int c) {
-        this.nombre = n;
-        this.codigo = c;
+        Simbolo(int a,String b)
+    {
+        nombre = b;
+        codigo = a;
+    }
+
+    public int getDireccion()
+    {
+        return direccion;
+    }
+
+    public void setDireccion(int direccion)
+    {
+        this.direccion = direccion;
     }
     
     void setCodigo(int c){

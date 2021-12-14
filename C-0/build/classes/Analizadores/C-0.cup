@@ -7,7 +7,168 @@ import java.util.Vector;
 import java.io.IOException;
 import java.lang.Math;
 
+action code {:
+	//CODIGO INTERMEDIO PARA LAS EXPRESIONES
 
+	//Bloques IF-THEN-ELSE
+	int cuentaIf;
+	Pila pilaIf;
+
+	//Bloque While
+	int cuentaBucle;
+	Pila pilaBucle;
+
+	//PUTS
+	int cuentaCadenas;
+	Lista listaCadenas;
+
+	void inicializar() {
+		cuentaIf = 0;
+		pilaIf = new Pila();
+
+		cuentaBucle = 0;
+		pilaBucle = new Pila();
+
+		cuentaCadenas = 0;
+		listaCadenas = new Lista();
+	}
+
+	//CONDICIÓN OR
+	Expresion or(Expresion c1,Expresion c2) {
+		cuentaDirecciones++;  //DIRECCIÓN INICIALIZADA EN 9999, SE ASGINA ASÍ PORQUE ANTES DE ASIGNAR LA DIRECCIPÓN INCREMENTA EN 1 PARA QUE SEA 10000
+		//INSTANCIA DE LA CLASE CUADRUPLA (NOMBRE DE LA OP, OP1, OP2, RESULTADO)
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("OR",
+		String.valueOf(c1.getDireccion()),
+		String.valueOf(c2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//CONDICIÓN AND
+	Expresion and(Expresion c1,Expresion c2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("AND",
+		String.valueOf(c1.getDireccion()),
+		String.valueOf(c2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}	
+
+	//MAYOR > 
+	Expresion mayor(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("MAYOR",
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//MENOR <
+	Expresion menor(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("MENOR",
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//IGUAL == 
+	Expresion igual(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("IGUAL",
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	//DISTINTO !=
+	Expresion distinto(Expresion e1,Expresion e2) {
+		cuentaDirecciones++;
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("DISTINTO",
+		String.valueOf(e1.getDireccion()),
+		String.valueOf(e2.getDireccion()),
+		String.valueOf(cuentaDirecciones)));
+		return new Expresion(cuentaDirecciones);
+	}
+
+	void asignacion(String id,Expresion e) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		"CARGAR_DIRECCION",
+		String.valueOf(e.getDireccion()),null,
+		String.valueOf((tabla.getSimbolo(id)).getDireccion())));
+	}
+
+	//METODOS PARA EL CI DE UNA INSTRUCCION IF-THEN-ELSE
+	void condicion(Expresion e,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"SALTAR_CONDICION",
+			String.valueOf(e.getDireccion()),
+			null,
+			"ELSE_"+String.valueOf(n)));
+	} 
+	
+	void saltarEtiqueta(String eti,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"SALTAR_ETIQUETA",
+			null,
+			null,
+			eti+"_"+String.valueOf(n)));
+	} 
+	
+	void ponerEtiqueta(String eti,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		"ETIQUETA",
+		null,
+		null,
+		eti+"_"+String.valueOf(n)));
+	}
+
+	//METODOS PARA EL CI DE UNA INSTRUCCIÓN DE BLOQUE WHILE
+	void condicion2(Expresion e,int n) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"SALTAR_CONDICION",
+			String.valueOf(e.getDireccion()),
+			null,
+			"FINBLUCLE_"+String.valueOf(n)));
+	} 
+
+	//METODO DE CI PARA LAS INSTRUCCIONES PUTW
+	void imprimirW(Expresion e) {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		"IMPRIMIR_ENTERO",
+		String.valueOf(e.getDireccion()),
+		null,
+		null));
+	}
+
+	//Método de CI para IMPRIMIR INSTRUCCIONES PUTS (STRINGS)
+	void imprimirS(String c,int cuenta){
+		listaCadenas.addCadena(c);
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+		"IMPRIMIR_CADENA",
+		"CADENA_"+String.valueOf(cuenta),
+		null,
+		null));
+	}
+
+	void generarCadenas() {
+		for(int i=0;i<listaCadenas.size();i++) {
+			codigoIntermedio.guardarCuadrupla(new Cuadrupla(
+			"PONER_CADENA",
+			"CADENA_"+String.valueOf(i+1),
+			null,
+			listaCadenas.getCadena(i)));
+		}
+	}
+
+	//Método para cerrar el programa y deje de emitir instrucciones
+	void finPrograma() {
+		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
+	}
+:}
 //Requerimientos de CUP
 parser code {:
     static TablaSimbolos ts;
@@ -155,7 +316,14 @@ Declaracion ::= INT ID:id PTOCOMA
 			:}
 		    ;
 
-Cuerpo::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE;
+Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias
+			{:
+				finPrograma();
+				generarCadenas();
+				cerrarCI();
+				//generarCF();
+			:}
+			RLLAVE;
 
 BloqueSentencias::= Sentencias | ;
 
@@ -234,59 +402,69 @@ Condicion ::= Condicion:c1 OR Condicion:c2
 			:}
               ;
 
-SentIf ::= IF LPAREN 
-			{:
-				
-			:}
-           Condicion:c 
-			{:
-				
-			:}
-	     RPAREN LLLAVE BloqueSentencias RLLAVE 
-			{:
-				
-			:}
-	     SentElse
-			{:
-				
-			:}
-           ;
+SentIf ::= IF LPAREN
+		{:
+			cuentaIf++;
+			pilaIf.apilar(cuentaIf);
+		:}
+			Condicion:c
+		{:
+			condicion(c,pilaIf.verCima());
+		:}
+			RPAREN LLLAVE BloqueSentencias RLLAVE
+		{:
+			saltarEtiqueta("FINIF",pilaIf.verCima());
+			ponerEtiqueta("ELSE",pilaIf.verCima());
+		:}
+			SentElse
+		{:
+			ponerEtiqueta("FINIF",pilaIf.verCima());
+			pilaIf.desapilar();
+		:}
+		;
 
 SentElse ::= ELSE LLLAVE BloqueSentencias RLLAVE |;
 
-SentWhile ::= WHILE LPAREN 
-			{:
-				
-			:}
-		  Condicion:c
-			{:
-				
-			:} 
-		  RPAREN LLLAVE 
-			{:
-			cuentaWhiles++;	
-			:}
-		  BloqueSentencias 
-			{:
-			cuentaWhiles--;		
-			:}
-		  RLLAVE
-			{:
-			
-			:}
-		  ;
+SentWhile ::= WHILE LPAREN
+		{:
+			cuentaBucle++;
+			pilaBucle.apilar(cuentaBucle);
+			ponerEtiqueta(“BUCLE”,pilaBucle.verCima());
+		:}
+			Condicion:c
+		{:
+			condicion2(c,pilaBucle.verCima());
+		:}
+			RPAREN LLLAVE
+		{:
+			cuentaWhiles++;
+		:}
+			BloqueSentencias
+		{:
+			cuentaWhiles--;
+		:}
+			RLLAVE
+		{:
+			saltarEtiqueta(“BUCLE”,pilaBucle.verCima());
+			ponerEtiqueta(“FINBUCLE”,pilaBucle.verCima());
+			pilaBucle.desapilar();
+		:}
+		;
 
 SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA {:System.out.println(id);:};
 
 SentPutw ::= PUTW LPAREN Expresion:e 
 			{:
-				
+				imprimirW(e);
 			:}
 	       RPAREN PTOCOMA;
 
-SentPuts::= PUTS LPAREN CADENATEXTO:c {:
-				
-			:} RPAREN PTOCOMA;
+SentPuts ::= PUTS LPAREN CADENATEXTO:c
+			{:
+				cuentaCadenas++;
+				imprimirS(c,cuentaCadenas);
+			:}
+			RPAREN PTOCOMA;
 
 SentBreak ::= BREAK 
 			{:
