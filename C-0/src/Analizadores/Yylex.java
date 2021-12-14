@@ -683,57 +683,57 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 31: break;
           case 3:
-            { System.out.println("Reconocio " + yytext() + " LPARENT");return Token(sym.LPAREN);
+            { System.out.println("Reconocio " + yytext() + " LPARENT");return new Symbol(sym.LPAREN, yycolumn, yyline, yytext());
             }
             // fall through
           case 32: break;
           case 4:
-            { System.out.println("Reconocio " + yytext() + " RPAREN");return Token(sym.RPAREN);
+            { System.out.println("Reconocio " + yytext() + " RPAREN");return new Symbol(sym.RPAREN, yycolumn, yyline, yytext());
             }
             // fall through
           case 33: break;
           case 5:
-            { System.out.println("Reconocio " + yytext() + " PRODUCTO");return Token(sym.PRODUCTO);
+            { System.out.println("Reconocio " + yytext() + " PRODUCTO");return new Symbol(sym.PRODUCTO, yycolumn, yyline, yytext());
             }
             // fall through
           case 34: break;
           case 6:
-            { System.out.println("Reconocio " + yytext() + " SUMA");return Token(sym.SUMA);
+            { System.out.println("Reconocio " + yytext() + " SUMA");return new Symbol(sym.SUMA, yycolumn, yyline, yytext());
             }
             // fall through
           case 35: break;
           case 7:
-            { System.out.println("Reconocio " + yytext() + " RESTA");return Token(sym.RESTA);
+            { System.out.println("Reconocio " + yytext() + " RESTA");return new Symbol(sym.RESTA, yycolumn, yyline, yytext());
             }
             // fall through
           case 36: break;
           case 8:
-            { System.out.println("Reconocio " + yytext() + " DIVISION");return Token(sym.DIVISION);
+            { System.out.println("Reconocio " + yytext() + " DIVISION");return new Symbol(sym.DIVISION, yycolumn, yyline, yytext());
             }
             // fall through
           case 37: break;
           case 9:
-            { System.out.println("Reconocio " + yytext() + " ENTERO");return Token(sym.ENTERO);
+            { System.out.println("Reconocio " + yytext() + " ENTERO");return new Symbol(sym.ENTERO, yycolumn, yyline, yytext());
             }
             // fall through
           case 38: break;
           case 10:
-            { System.out.println("Reconocio " + yytext() + " PTOCOMA");return Token(sym.PTOCOMA);
+            { System.out.println("Reconocio " + yytext() + " PTOCOMA");return new Symbol(sym.PTOCOMA, yycolumn, yyline, yytext());
             }
             // fall through
           case 39: break;
           case 11:
-            { System.out.println("Reconocio " + yytext() + " MENOR");return Token(sym.MENOR);
+            { System.out.println("Reconocio " + yytext() + " MENOR");return new Symbol(sym.MENOR, yycolumn, yyline, yytext());
             }
             // fall through
           case 40: break;
           case 12:
-            { System.out.println("Reconocio " + yytext() + " ASIGNAR"); return Token(sym.ASIGNAR);
+            { System.out.println("Reconocio " + yytext() + " ASIGNAR"); return new Symbol(sym.ASIGNAR, yycolumn, yyline, yytext());
             }
             // fall through
           case 41: break;
           case 13:
-            { System.out.println("Reconocio " + yytext() + " MAYOR");return Token(sym.MAYOR);
+            { System.out.println("Reconocio " + yytext() + " MAYOR");return new Symbol(sym.MAYOR, yycolumn, yyline, yytext());
             }
             // fall through
           case 42: break;
@@ -743,77 +743,77 @@ class Yylex implements java_cup.runtime.Scanner {
             // fall through
           case 43: break;
           case 15:
-            { System.out.println("Reconocio " + yytext() + " LLLAVE");return Token(sym.LLLAVE);
+            { System.out.println("Reconocio " + yytext() + " LLLAVE");return new Symbol(sym.LLLAVE, yycolumn, yyline, yytext());
             }
             // fall through
           case 44: break;
           case 16:
-            { System.out.println("Reconocio " + yytext() + " RLLAVE");return Token(sym.RLLAVE);
+            { System.out.println("Reconocio " + yytext() + " RLLAVE");return new Symbol(sym.RLLAVE, yycolumn, yyline, yytext());
             }
             // fall through
           case 45: break;
           case 17:
-            { System.out.println("Reconocio " + yytext() + " CADENATEXTO"); return Token(sym.CADENATEXTO);
+            { System.out.println("Reconocio " + yytext() + " CADENATEXTO"); return new Symbol(sym.CADENATEXTO, yycolumn, yyline, yytext());
             }
             // fall through
           case 46: break;
           case 18:
-            { System.out.println("Reconocio " + yytext() + " AND");return Token(sym.AND);
+            { System.out.println("Reconocio " + yytext() + " AND");return new Symbol(sym.AND, yycolumn, yyline, yytext());
             }
             // fall through
           case 47: break;
           case 19:
-            { System.out.println("Reconocio " + yytext() + " IGUAL");return Token(sym.IGUAL);
+            { System.out.println("Reconocio " + yytext() + " IGUAL");return new Symbol(sym.IGUAL, yycolumn, yyline, yytext());
             }
             // fall through
           case 48: break;
           case 20:
-            { System.out.println("Reconocio " + yytext() + " IF");return Token(sym.IF);
+            { System.out.println("Reconocio " + yytext() + " IF");return new Symbol(sym.IF, yycolumn, yyline, yytext());
             }
             // fall through
           case 49: break;
           case 21:
-            { System.out.println("Reconocio " + yytext() + " OR");return Token(sym.OR);
+            { System.out.println("Reconocio " + yytext() + " OR");return new Symbol(sym.OR, yycolumn, yyline, yytext());
             }
             // fall through
           case 50: break;
           case 22:
-            { System.out.println("Reconocio " + yytext() + " INT");return Token(sym.INT);
+            { System.out.println("Reconocio " + yytext() + " INT");return new Symbol(sym.INT, yycolumn, yyline, yytext());
             }
             // fall through
           case 51: break;
           case 23:
-            { System.out.println("Reconocio " + yytext() + " DISTINTO");return Token(sym.DISTINTO);
+            { System.out.println("Reconocio " + yytext() + " DISTINTO");return new Symbol(sym.DISTINTO, yycolumn, yyline, yytext());
             }
             // fall through
           case 52: break;
           case 24:
-            { System.out.println("Reconocio " + yytext() + " ELSE");return Token(sym.ELSE);
+            { System.out.println("Reconocio " + yytext() + " ELSE");return new Symbol(sym.ELSE, yycolumn, yyline, yytext());
             }
             // fall through
           case 53: break;
           case 25:
-            { System.out.println("Reconocio " + yytext() + " main"); return Token(sym.MAIN);
+            { System.out.println("Reconocio " + yytext() + " main"); return new Symbol(sym.MAIN, yycolumn, yyline, yytext());
             }
             // fall through
           case 54: break;
           case 26:
-            { System.out.println("Reconocio " + yytext() + " PUTS");return Token(sym.PUTS);
+            { System.out.println("Reconocio " + yytext() + " PUTS");return new Symbol(sym.PUTS, yycolumn, yyline, yytext());
             }
             // fall through
           case 55: break;
           case 27:
-            { System.out.println("Reconocio " + yytext() + " PUTW");return Token(sym.PUTW);
+            { System.out.println("Reconocio " + yytext() + " PUTW");return new Symbol(sym.PUTW, yycolumn, yyline, yytext());
             }
             // fall through
           case 56: break;
           case 28:
-            { System.out.println("Reconocio " + yytext() + " BREAK");return Token(sym.BREAK);
+            { System.out.println("Reconocio " + yytext() + " BREAK");return new Symbol(sym.BREAK, yycolumn, yyline, yytext());
             }
             // fall through
           case 57: break;
           case 29:
-            { System.out.println("Reconocio " + yytext() + " WHILE");return Token(sym.WHILE);
+            { System.out.println("Reconocio " + yytext() + " WHILE");return new Symbol(sym.WHILE, yycolumn, yyline, yytext());
             }
             // fall through
           case 58: break;

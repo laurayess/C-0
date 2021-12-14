@@ -7,6 +7,7 @@ package Analizadores;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.*;
 
 /**
  *
@@ -16,12 +17,14 @@ class CodigoIntermedio {
     public PrintWriter pw;
     public FileWriter fichero;
     public String ficheroSalida;
+    Vector instrucciones;
     
     
     public CodigoIntermedio (String nombre){
         //Constructor
         ficheroSalida = nombre;
         fichero= null;
+        crearInstrucciones();
     }
     
     void escribirLn(String cadena) {
@@ -59,4 +62,12 @@ class CodigoIntermedio {
             e.printStackTrace();
         }        
     }
+    
+    public void guardarCuadrupla(Cuadrupla cuadrupla) {
+		instrucciones.addElement(cuadrupla);
+	}
+    
+    private void crearInstrucciones() {
+		instrucciones = new Vector();
+	}
 }

@@ -18,8 +18,9 @@ public class Pila{
     }
 
     public int verCima(){
-        int ultimoE = pila.peek();
-        return ultimoE;
+        /*int ultimoE = Integer.parseInt(pila.peek().toString());
+        return ultimoE;*/
+        return ((Integer)pila.lastElement()).intValue();
     }
 
 }

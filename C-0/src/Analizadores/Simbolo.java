@@ -21,10 +21,6 @@ public class Simbolo {
         return direccion;
     }
 
-    public void setDireccion(int direccion)
-    {
-        this.direccion = direccion;
-    }
     
     void setCodigo(int c){
         codigo = c;
@@ -45,10 +41,7 @@ public class Simbolo {
     void setDireccion(int d){
         direccion = d;
     }
-    
-    int getDireccion(){
-        return direccion;
-    }
+
     
     public String toString(){
         return nombre;

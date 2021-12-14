@@ -22,7 +22,10 @@ action code {:
 	int cuentaCadenas;
 	Lista listaCadenas;
 
+        int cuentaDirecciones;
+
 	void inicializar() {
+                cuentaDirecciones = 9999;
 		cuentaIf = 0;
 		pilaIf = new Pila();
 
@@ -35,8 +38,7 @@ action code {:
 
 	//CONDICIÓN OR
 	Expresion or(Expresion c1,Expresion c2) {
-		cuentaDirecciones++;  //DIRECCIÓN INICIALIZADA EN 9999, SE ASGINA ASÍ PORQUE ANTES DE ASIGNAR LA DIRECCIPÓN INCREMENTA EN 1 PARA QUE SEA 10000
-		//INSTANCIA DE LA CLASE CUADRUPLA (NOMBRE DE LA OP, OP1, OP2, RESULTADO)
+		cuentaDirecciones++;  
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla("OR",
 		String.valueOf(c1.getDireccion()),
 		String.valueOf(c2.getDireccion()),
@@ -98,7 +100,7 @@ action code {:
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
 		"CARGAR_DIRECCION",
 		String.valueOf(e.getDireccion()),null,
-		String.valueOf((tabla.getSimbolo(id)).getDireccion())));
+		String.valueOf((ts.getSimbolo(id)).getDireccion())));
 	}
 
 	//METODOS PARA EL CI DE UNA INSTRUCCION IF-THEN-ELSE
@@ -168,8 +170,13 @@ action code {:
 	void finPrograma() {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
 	}
+
+        void identificador(Expresion id){
+            System.out.println(id.toString());
+        }
 :}
 //Requerimientos de CUP
+
 parser code {:
     static TablaSimbolos ts;
     static CodigoIntermedio codigoIntermedio;
@@ -230,13 +237,7 @@ parser code {:
     } 
 :};
 
-action code {:
 
-
-
-
-
-:}
 
 //---------------------------------Terminales-------------------------------------------------------------------------
 
@@ -267,7 +268,7 @@ terminal BREAK;
 terminal NUMERO;
 
 terminal String ID;
-terminal int ENTERO;
+terminal String ENTERO;
 terminal String CADENATEXTO;
 
 //---------------------------------NO Terminales-------------------------------------------------------------------------
@@ -276,8 +277,8 @@ non terminal Programa, Declaraciones, Cuerpo;
 non terminal Declaracion;
 non terminal BloqueSentencias;
 non terminal Sentencias, Sentencia;
-non terminal Expresion;
-non terminal Condicion;
+non terminal Expresion Expresion;
+non terminal Expresion Condicion;
 non terminal SentIf, SentElse;
 non terminal SentWhile;
 non terminal SentAsignacion;
@@ -292,6 +293,7 @@ precedence left IGUAL, DISTINTO, MAYOR, MENOR;
 precedence left SUMA, RESTA;
 precedence left PRODUCTO, DIVISION;
 precedence left LPAREN, RPAREN;
+precedence left ELSE;
 
 
 //Gramática
@@ -320,7 +322,7 @@ Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias
 			{:
 				finPrograma();
 				generarCadenas();
-				cerrarCI();
+				//cerrarCI();
 				//generarCF();
 			:}
 			RLLAVE;
@@ -350,14 +352,19 @@ Expresion ::= Expresion:e1 SUMA Expresion:e2
 				
 			:}
 		  |
-		  ENTERO
+		  ENTERO:e  
 			{:
-				
+				//RESULT=entero(e);
 			:}
 		  |
 		  ID:id 
 			{:
-				
+				if(existeSimbolo(id)) {
+					RESULT=identificador(id);
+				} else {
+					parser.error(Texto.simboloNoDeclarado);
+					RESULT=identificador(null);
+				}
 			:}
 		  |
 	   	  LPAREN Expresion:e RPAREN 
@@ -398,7 +405,7 @@ Condicion ::= Condicion:c1 OR Condicion:c2
 		  |
 		  LPAREN Condicion:c RPAREN
 			{:
-				
+				RESULT=c;
 			:}
               ;
 
@@ -409,6 +416,7 @@ SentIf ::= IF LPAREN
 		:}
 			Condicion:c
 		{:
+                        System.out.println("PROBANDO CONDICIÓN: " + c);
 			condicion(c,pilaIf.verCima());
 		:}
 			RPAREN LLLAVE BloqueSentencias RLLAVE
@@ -429,7 +437,7 @@ SentWhile ::= WHILE LPAREN
 		{:
 			cuentaBucle++;
 			pilaBucle.apilar(cuentaBucle);
-			ponerEtiqueta(“BUCLE”,pilaBucle.verCima());
+			ponerEtiqueta("BUCLE",pilaBucle.verCima());
 		:}
 			Condicion:c
 		{:
@@ -445,8 +453,8 @@ SentWhile ::= WHILE LPAREN
 		:}
 			RLLAVE
 		{:
-			saltarEtiqueta(“BUCLE”,pilaBucle.verCima());
-			ponerEtiqueta(“FINBUCLE”,pilaBucle.verCima());
+			saltarEtiqueta("BUCLE",pilaBucle.verCima());
+			ponerEtiqueta("FINBUCLE",pilaBucle.verCima());
 			pilaBucle.desapilar();
 		:}
 		;

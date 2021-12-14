@@ -19,4 +19,8 @@ public class Expresion {
 	int getDireccion() {
 		return direccion;
 	}
+        
+        public String toString(){
+            return direccion + "";
+        }
 }
