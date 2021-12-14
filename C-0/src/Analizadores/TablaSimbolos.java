@@ -25,7 +25,8 @@ public class TablaSimbolos {
     // Se agrega un simbolo
      public void insertarSimbolo(String identificador) {
         Simbolo sim=new Simbolo(identificador, sizeSimbolos());
-        tablaDeSimbolos.add(sim); 
+        tablaDeSimbolos.add(sim);
+        System.out.println("Nombre: " + identificador + " Codigo: " + (sizeSimbolos() - 1));
     } 
 
     // ¿Existe un simbolo?
