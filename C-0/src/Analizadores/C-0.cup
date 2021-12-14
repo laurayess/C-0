@@ -14,7 +14,8 @@ parser code {:
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
-
+    static int cuentaWhiles;
+	
     public void error(String mensaje) {
         System.out.println("ERROR lin:"+InformacionCodigo.linea+
         " tok:"+InformacionCodigo.token+" => "+mensaje);
@@ -22,6 +23,7 @@ parser code {:
 
     public static void inicializar() throws IOException {
         ts = new TablaSimbolos();
+        cuentaWhiles = 0;
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
     }
@@ -36,13 +38,20 @@ parser code {:
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
-                new Analizador_Sintactico(lexico).parse();
+                new parser(lexico).parse();
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }
         }
     }
 
+    boolean existeSimbolo(String id) {  
+		return ts.existe(id);
+    }
+
+    void insertarSimbolo(String id) {
+		ts.insertarSimbolo(id);
+    }
     
     public void report_error(String message, Object info) {
         error(message);
@@ -60,6 +69,14 @@ parser code {:
     } 
 :};
 
+action code {:
+
+
+
+
+
+:}
+
 //---------------------------------Terminales-------------------------------------------------------------------------
 
 terminal PTOCOMA;
@@ -76,7 +93,6 @@ terminal DISTINTO;
 terminal OR;
 terminal AND;
 terminal ASIGNAR;
-terminal CADENA;
 terminal LLLAVE, RLLAVE;
 
 terminal MAIN;
@@ -90,7 +106,7 @@ terminal BREAK;
 terminal NUMERO;
 
 terminal String ID;
-terminal String ENTERO;
+terminal int ENTERO;
 terminal String CADENATEXTO;
 
 //---------------------------------NO Terminales-------------------------------------------------------------------------
@@ -100,7 +116,7 @@ non terminal Declaracion;
 non terminal BloqueSentencias;
 non terminal Sentencias, Sentencia;
 non terminal Expresion;
-non terminal Expresion Condicion;
+non terminal Condicion;
 non terminal SentIf, SentElse;
 non terminal SentWhile;
 non terminal SentAsignacion;
@@ -120,11 +136,24 @@ precedence left LPAREN, RPAREN;
 //Gramática
 start with Programa;  //A
 
-Programa::= Declaraciones Cuerpo | Cuerpo;  //A
+Programa::= {:
+			inicializar();
+		 :}
+                Declaraciones Cuerpo | Cuerpo;  //A
 
 Declaraciones::= Declaracion Declaraciones | Declaracion;
 
-Declaracion::= INT ID PTOCOMA;
+Declaracion ::= INT ID:id PTOCOMA
+			{:
+                                
+				if(existeSimbolo(id)) {
+					parser.error(Texto.simboloRedeclarado);
+				} else {
+					insertarSimbolo(id);
+					
+				}
+			:}
+		    ;
 
 Cuerpo::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias RLLAVE;
 
@@ -132,16 +161,16 @@ BloqueSentencias::= Sentencias | ;
 
 Sentencias::= Sentencia Sentencias | Sentencia;
 
-
 Expresion ::= Expresion:e1 SUMA Expresion:e2 
 			{:
 				
 			:}
               |
-		  Expresion:e1 RESTA Expresion:e2 
-			{:
+		  Expresion:e1 RESTA Expresion:e2
+                        {:
 				
 			:}
+			
 		  |
               Expresion:e1 PRODUCTO Expresion:e2 
 			{:
@@ -153,7 +182,7 @@ Expresion ::= Expresion:e1 SUMA Expresion:e2
 				
 			:}
 		  |
-		  ENTERO:e 
+		  ENTERO
 			{:
 				
 			:}
@@ -235,27 +264,19 @@ SentWhile ::= WHILE LPAREN
 			:} 
 		  RPAREN LLLAVE 
 			{:
-				
+			cuentaWhiles++;	
 			:}
 		  BloqueSentencias 
 			{:
-				
+			cuentaWhiles--;		
 			:}
 		  RLLAVE
 			{:
-				
+			
 			:}
 		  ;
 
-SentAsignacion ::= ID:id
-				{:
-					
-				:} 
-			 ASIGNAR Expresion:e PTOCOMA
-				{:
-					
-				:}
-                   ;
+SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA {:System.out.println(id);:};
 
 SentPutw ::= PUTW LPAREN Expresion:e 
 			{:
@@ -263,15 +284,16 @@ SentPutw ::= PUTW LPAREN Expresion:e
 			:}
 	       RPAREN PTOCOMA;
 
-SentPuts ::= PUTS LPAREN CADENATEXTO:c
-			{:
+SentPuts::= PUTS LPAREN CADENATEXTO:c {:
 				
-			:}
-	       RPAREN PTOCOMA;
+			:} RPAREN PTOCOMA;
 
 SentBreak ::= BREAK 
 			{:
-			
+			if(cuentaWhiles > 0){
+                           }else{
+                            parser.error(Texto.breakSinWhile);
+                        }       
 			:}
 		  PTOCOMA;
 
