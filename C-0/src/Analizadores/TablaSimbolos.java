@@ -16,6 +16,13 @@ public class TablaSimbolos {
         //Se inserta el tipo "int" que es el unico que se ocupara
 	insertarTipo("int");
     }
+    
+        // Se agrega un simbolo
+    public void insertarSimbolo(String identificador) {
+        Simbolo sim=new Simbolo(sizeSimbolos(), identificador);
+        tablaDeSimbolos.add(sim);
+        System.out.println("Nombre: " + identificador + " Codigo: " + (sizeSimbolos() - 1));
+    } 
 
     // Inserta un tipo
     public void insertarTipo(String identificador){
@@ -23,64 +30,23 @@ public class TablaSimbolos {
         Tipo tipo=new Tipo(sizeTipo(), identificador);
         tablaDeTipos.add(tipo); 
     }
-/* public class TablaSimbolos
-{
-    public HashMap tabla;
-    public int tamano;
-
-    public TablaSimbolos()
-    {
-        tabla = new HashMap();
-        tamano = 0;
+    
+    public int sizeSimbolos(){
+        return tablaDeSimbolos.size();
     }
-    void setSimbolo(Simbolo s)
-    {
-        int cod=s.getValor();
-        tabla.put(s, cod);
-        setSimbolo(s);
-    }
-    void setDireccionSimbolo(String id, int d)
-    {
-        Simbolo sim= new Simbolo(id,d);
-        
-    }
-    Simbolo getSimbolo(String id)
-    {
-        Simbolo sim=null;
-        for(int i=0;i<this.tabla.size();i++)
-        {
-            sim= getSimbolo(i);
-            if(sim.getId().equals(id))
-            {
-                break;
-            }
-            else
-            {
-                sim=null;
-            }
-        }
-        return sim;
+    
+    public int sizeTipo(){
+        return tablaDeTipos.size();
     }
     
     Simbolo getSimbolo(int id)
     {
-        return (Simbolo) tabla.get(id);
+        return (Simbolo) tablaDeSimbolos.elementAt(id);
     }
-    // Inserta un simbolo
-    public void insertar(String identificador, int valor) {
-        if (!existe(identificador)) {
-            tamano++;
-            tabla.put(tamano, new Simbolo(identificador, valor));
-            //System.out.println("Ident: " + identificador + " Valor: " + valor);
-        }
-    } */
-
-    // Se agrega un simbolo
-    public void insertarSimbolo(String identificador) {
-        Simbolo sim=new Simbolo(sizeSimbolos(), identificador);
-        tablaDeSimbolos.add(sim);
-        System.out.println("Nombre: " + identificador + " Codigo: " + (sizeSimbolos() - 1));
-    } 
+    
+    Tipo getTipo(int pos) {
+		return (Tipo)tablaDeTipos.elementAt(pos);
+	}
 
     // ¿Existe un simbolo?
     public boolean existe(String identificador) {
@@ -99,19 +65,7 @@ public class TablaSimbolos {
         return simbolo;
         
     }
-
-    Simbolo getSimbolo(int id)
-    {
-        return (Simbolo) tablaDeSimbolos.get(id);
-    }
     
-    public int sizeSimbolos(){
-        return tablaDeSimbolos.size();
-    }
-    
-    public int sizeTipo(){
-        return tablaDeTipos.size();
-    }
     
     void insertarSimbolo(Simbolo s)
     {
@@ -125,15 +79,8 @@ public class TablaSimbolos {
         sim.setDireccion(d);
         insertarSimbolo(sim);
     }
-<<<<<<< HEAD
-    
-
-    
-    
-=======
-    public void addSimbolo(String sim)
+    /* public void addSimbolo(String sim)
     {
         tabla.put(tabla.size(), sim);
-    }
->>>>>>> a6193b90f2d296db3ae9d52db7e0fd0204918da7
+    } */
 }

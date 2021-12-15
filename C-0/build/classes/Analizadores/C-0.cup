@@ -8,33 +8,117 @@ import java.io.IOException;
 import java.lang.Math;
 
 action code {:
-	//CODIGO INTERMEDIO PARA LAS EXPRESIONES
 
-	//Bloques IF-THEN-ELSE
-	int cuentaIf;
-	Pila pilaIf;
+    TablaSimbolos ts;
+
+    int cuentaWhiles;
+    int cuentaDirecciones;
+    CodigoIntermedio codigoIntermedio;
+    String ficheroCodigoIntermedio=null;
+    String codFuente;
+
+    int cuentaIf;
+    Pila pilaIf;
 
 	//Bloque While
-	int cuentaBucle;
-	Pila pilaBucle;
+    int cuentaBucle;
+    Pila pilaBucle;
 
 	//PUTS
-	int cuentaCadenas;
-	Lista listaCadenas;
+    int cuentaCadenas;
+    Lista listaCadenas;
 
-        int cuentaDirecciones;
 
-	void inicializar() {
-                cuentaDirecciones = 9999;
+    void inicializar() {
+		ts = new TablaSimbolos();
+		cuentaWhiles = 0;
+		cuentaDirecciones = 9999;
 		cuentaIf = 0;
 		pilaIf = new Pila();
-
 		cuentaBucle = 0;
 		pilaBucle = new Pila();
-
 		cuentaCadenas = 0;
 		listaCadenas = new Lista();
+                
+		String nombre = parser.nombreFichero.substring(0,parser.nombreFichero.lastIndexOf("."));
+		codigoIntermedio = new CodigoIntermedio(nombre+".ci");
+		try {
+			codigoIntermedio.abrirFicheroEscritura();
+		} catch (IOException e) {
+			System.out.println(Textos.ficheroCiNoExiste);
+			codigoIntermedio.cerrarFicheroEscritura();
+		}
 	}
+
+    boolean existe(String id)
+    {
+        return ts.existe(id);
+    }
+
+    void insertarSimbolo(String id) {
+		ts.insertarSimbolo(id);
+    }
+
+    void setDireccionSimbolo(String id,int dir)
+    {
+	ts.setDireccionSimbolo(id,dir);
+    }
+
+    Expresion suma(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("SUMAR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+
+    Expresion resta(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("RESTAR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion producto(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("MULTIPLICAR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion division(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("DIVIDIR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion entero(String e)
+    {
+	cuentaDirecciones++;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_VALOR",
+	e,
+	null,
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion identificador(String id)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
+	String.valueOf((ts.getSimbolo(id)).getDireccion()),
+	null,
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
 
 	//CONDICIÓN OR
 	Expresion or(Expresion c1,Expresion c2) {
@@ -103,6 +187,10 @@ action code {:
 		String.valueOf((ts.getSimbolo(id)).getDireccion())));
 	}
 
+        void cerrarCI() {
+            codigoIntermedio.cerrarFicheroEscritura();
+	}
+
 	//METODOS PARA EL CI DE UNA INSTRUCCION IF-THEN-ELSE
 	void condicion(Expresion e,int n) {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
@@ -111,6 +199,7 @@ action code {:
 			null,
 			"ELSE_"+String.valueOf(n)));
 	} 
+
 	
 	void saltarEtiqueta(String eti,int n) {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla(
@@ -171,26 +260,17 @@ action code {:
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
 	}
 
+	
+
 :}
-//Requerimientos de CUP
 
 parser code {:
-    static TablaSimbolos ts;
-    static CodigoIntermedio codigoIntermedio;
-    static String ficheroCodigoIntermedio=null;
-    static String codFuente;
-    static int cuentaWhiles;
 	
+    static String nombreFichero;
+
     public void error(String mensaje) {
         System.out.println("ERROR lin:"+InformacionCodigo.linea+
         " tok:"+InformacionCodigo.token+" => "+mensaje);
-    }
-
-    public static void inicializar() throws IOException {
-        ts = new TablaSimbolos();
-        cuentaWhiles = 0;
-        codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
-        codigoIntermedio.abrirFicheroEscritura();
     }
 
     public static void main(String args[]) throws Exception {
@@ -204,18 +284,13 @@ parser code {:
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
                 new parser(lexico).parse();
+                /*Yylex lexico = new Yylex(new FileReader(args[0]));
+                nombreFichero = (String)args[0];
+		new parser(lexico).parse();*/
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }
         }
-    }
-
-    boolean existeSimbolo(String id) {  
-		return ts.existe(id);
-    }
-
-    void insertarSimbolo(String id) {
-		ts.insertarSimbolo(id);
     }
     
     public void report_error(String message, Object info) {
@@ -233,6 +308,9 @@ parser code {:
     public void unrecovered_syntax_error(Symbol actual) {
     } 
 :};
+//Requerimientos de CUP
+
+
 
 
 
@@ -305,21 +383,20 @@ Declaraciones::= Declaracion Declaraciones | Declaracion;
 
 Declaracion ::= INT ID:id PTOCOMA
 			{:
-                                
-				if(existeSimbolo(id)) {
-					parser.error(Texto.simboloRedeclarado);
-				} else {
-					insertarSimbolo(id);
-					
-				}
-			:}
+    if(existe(id)) {
+	parser.error(Textos.simboloRedeclarado);
+    } else {
+	insertarSimbolo(id);
+	cuentaDirecciones++;
+	setDireccionSimbolo(id,cuentaDirecciones);
+    }:}
 		    ;
 
 Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias
 			{:
 				finPrograma();
 				generarCadenas();
-				//cerrarCI();
+				cerrarCI();
 				//generarCF();
 			:}
 			RLLAVE;
@@ -330,23 +407,23 @@ Sentencias::= Sentencia Sentencias | Sentencia;
 
 Expresion ::= Expresion:e1 SUMA Expresion:e2 
 			{:
-				
+				RESULT=suma(e1,e2);
 			:}
               |
 		  Expresion:e1 RESTA Expresion:e2
                         {:
-				
+				RESULT=resta(e1,e2);
 			:}
 			
 		  |
               Expresion:e1 PRODUCTO Expresion:e2 
 			{:
-				
+				RESULT=producto(e1,e2);
 			:}
 		  |
 		  Expresion:e1 DIVISION Expresion:e2 
 			{:
-				
+				RESULT=division(e1,e2);
 			:}
 		  |
 		  ENTERO:e  
@@ -356,7 +433,7 @@ Expresion ::= Expresion:e1 SUMA Expresion:e2
 		  |
 		  ID:id 
 			{:
-				if(existeSimbolo(id)) {
+				if(existe(id)) {
 					RESULT=identificador(id);
 				} else {
 					parser.error(Texto.simboloNoDeclarado);
@@ -366,38 +443,38 @@ Expresion ::= Expresion:e1 SUMA Expresion:e2
 		  |
 	   	  LPAREN Expresion:e RPAREN 
 			{:
-				
+				RESULT=e;
 			:}
 		  ;
 
 Condicion ::= Condicion:c1 OR Condicion:c2 
 			{:
-				
+			RESULT=or(c1,c2);	
 			:}
 	        |
 		  Condicion:c1 AND Condicion:c2 
 			{:
-				
+				RESULT=and(c1,c2);
 			:}
 		  |
       	  Expresion:e1 IGUAL Expresion:e2 
 			{:
-				
+				RESULT=igual(e1,e2);
 			:}
 		  |
 		  Expresion:e1 DISTINTO Expresion:e2 
 			{:
-				
+				RESULT=distinto(e1,e2);
 			:}
 		  |
 		  Expresion:e1 MAYOR Expresion:e2 
 			{:
-				
+				RESULT=mayor(e1,e2);
 			:}
 		  |
 		  Expresion:e1 MENOR Expresion:e2 
 			{:
-				
+				RESULT=menor(e1,e2);
 			:}
 		  |
 		  LPAREN Condicion:c RPAREN
@@ -413,7 +490,7 @@ SentIf ::= IF LPAREN
 		:}
 			Condicion:c
 		{:
-                        
+                        System.out.println("CONDICION C: " + c);
 			condicion(c,pilaIf.verCima());
 		:}
 			RPAREN LLLAVE BloqueSentencias RLLAVE
@@ -456,7 +533,17 @@ SentWhile ::= WHILE LPAREN
 		:}
 		;
 
-SentAsignacion::= ID:id ASIGNAR Expresion:e PTOCOMA {:System.out.println(id);:};
+SentAsignacion::= ID:id 
+                {:
+                if(existe(id)) {
+		} else {
+                    parser.error(Textos.simboloNoDeclarado);
+			}
+                :}
+                ASIGNAR Expresion:e PTOCOMA 
+                {:
+                    asignacion(id,e);
+                :};
 
 SentPutw ::= PUTW LPAREN Expresion:e 
 			{:
