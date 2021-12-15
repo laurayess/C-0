@@ -245,6 +245,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
     static TablaSimbolos ts;
+    static int cuentaDirecciones;
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
@@ -258,10 +259,33 @@ public class parser extends java_cup.runtime.lr_parser {
     public static void inicializar() throws IOException {
         ts = new TablaSimbolos();
         cuentaWhiles = 0;
+        cuentaDirecciones = 9999;
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
     }
-
+    /*void inicializar() {
+		tabla = new Tabla();
+		cuentaWhiles = 0;
+		cuentaDirecciones = 9999;
+		cuentaIf = 0;
+		pilaIf = new Pila();
+		cuentaBucle = 0;
+		pilaBucle = new Pila();
+		cuentaCadenas = 0;
+		listaCadenas = new Lista();
+		String nombre = parser.nombreFichero.substring(0,parser.nombreFichero.lastIndexOf("."));
+		codigoIntermedio = new CodigoIntermedio(nombre+".ci");
+		try {
+			codigoIntermedio.abrirFicheroEscritura();
+		} catch (IOException e) {
+                System.out.println(Textos.ficheroCiNoExiste);
+			codigoIntermedio.cerrarFicheroEscritura();
+		}
+	}*/
+    boolean existeSimbolo(String id)
+    {
+        return ts.existe(id);
+    }
     public static void main(String args[]) throws Exception {
         if (args.length != 1) {
             System.out.println("Falta fichero");
@@ -272,7 +296,10 @@ public class parser extends java_cup.runtime.lr_parser {
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
-                new parser(lexico).parse();
+                new parser(lexico)(lexico).parse();
+                /*Yylex lexico = new Yylex(new FileReader(args[0]));
+                nombreFichero = (String)args[0];
+		new parser(lexico).parse();*/
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }
@@ -287,6 +314,123 @@ public class parser extends java_cup.runtime.lr_parser {
 		ts.insertarSimbolo(id);
     }
     
+    Expresion suma(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("SUMAR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+
+    Expresion resta(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("RESTAR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion producto(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("MULTIPLICAR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion division(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("DIVIDIR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion entero(String e)
+    {
+	cuentaDirecciones++;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_VALOR",
+	e,
+	null,
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion identificador(String id)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
+	String.valueOf((tabla.getSimbolo(id)).getDireccion()),
+	null,
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion or(Expresion c1,Expresion c2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("OR",
+	String.valueOf(c1.getDireccion()),
+	String.valueOf(c2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion and(Expresion c1,Expresion c2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("AND",
+	String.valueOf(c1.getDireccion()),
+	String.valueOf(c2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion mayor(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("MAYOR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion menor(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("MENOR",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion igual(Expresion e1,Expresion e2)
+    {
+	cuentaDirecciones++;
+        codigoIntermedio.guardarCuadrupla(new Cuadrupla("IGUAL",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    Expresion distinto(Expresion e1,Expresion e2)
+    {
+        cuentaDirecciones++;
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("DISTINTO",
+	String.valueOf(e1.getDireccion()),
+	String.valueOf(e2.getDireccion()),
+	String.valueOf(cuentaDirecciones)));
+	return new Expresion(cuentaDirecciones);
+    }
+    
+    void asignacion(String id,Expresion e)
+    {
+	codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
+	String.valueOf(e.getDireccion()),
+	null,
+	String.valueOf((ts.getSimbolo(id)).getDireccion())));
+    }
     public void report_error(String message, Object info) {
         error(message);
     } 

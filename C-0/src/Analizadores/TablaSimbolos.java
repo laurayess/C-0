@@ -125,8 +125,15 @@ public class TablaSimbolos {
         sim.setDireccion(d);
         insertarSimbolo(sim);
     }
+<<<<<<< HEAD
     
 
     
     
+=======
+    public void addSimbolo(String sim)
+    {
+        tabla.put(tabla.size(), sim);
+    }
+>>>>>>> a6193b90f2d296db3ae9d52db7e0fd0204918da7
 }
