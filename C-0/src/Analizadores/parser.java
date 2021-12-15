@@ -296,7 +296,7 @@ public class parser extends java_cup.runtime.lr_parser {
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
-                new parser(lexico)(lexico).parse();
+                new parser(lexico).parse();
                 /*Yylex lexico = new Yylex(new FileReader(args[0]));
                 nombreFichero = (String)args[0];
 		new parser(lexico).parse();*/
@@ -304,10 +304,6 @@ public class parser extends java_cup.runtime.lr_parser {
                 System.out.println("Fichero no abierto");
             }
         }
-    }
-
-    boolean existeSimbolo(String id) {  
-		return ts.existe(id);
     }
 
     void insertarSimbolo(String id) {
@@ -364,7 +360,7 @@ public class parser extends java_cup.runtime.lr_parser {
     {
 	cuentaDirecciones++;
 	codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
-	String.valueOf((tabla.getSimbolo(id)).getDireccion()),
+	String.valueOf((ts.getSimbolo(id)).getDireccion()),
 	null,
 	String.valueOf(cuentaDirecciones)));
 	return new Expresion(cuentaDirecciones);
@@ -615,8 +611,8 @@ class CUP$parser$actions {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
 	}
 
-        void identificador(Expresion id){
-            System.out.println(id.toString());
+        void identificador(String id){
+            System.out.println(id);
         }
 
   private final parser parser;

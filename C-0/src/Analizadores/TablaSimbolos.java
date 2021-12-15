@@ -125,15 +125,10 @@ public class TablaSimbolos {
         sim.setDireccion(d);
         insertarSimbolo(sim);
     }
-<<<<<<< HEAD
-    
 
-    
-    
-=======
-    public void addSimbolo(String sim)
+    public void addSimbolo(Simbolo sim)
     {
-        tabla.put(tabla.size(), sim);
+        tablaDeSimbolos.add(sim);
+        //tablaDeSimbolos.add(tablaDeSimbolos.size(), sim);
     }
->>>>>>> a6193b90f2d296db3ae9d52db7e0fd0204918da7
 }

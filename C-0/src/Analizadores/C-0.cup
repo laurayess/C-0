@@ -35,7 +35,7 @@ action code {:
 		cuentaCadenas = 0;
 		listaCadenas = new Lista();
 	}
-
+        
 	//CONDICIÓN OR
 	Expresion or(Expresion c1,Expresion c2) {
 		cuentaDirecciones++;  
@@ -45,6 +45,80 @@ action code {:
 		String.valueOf(cuentaDirecciones)));
 		return new Expresion(cuentaDirecciones);
 	}
+        void setDireccionSimbolo(String id,int dir)
+        {
+            tabla.setDireccionSimbolo(id,dir);
+        }
+        //Expresion suma
+        Expresion suma(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("SUMAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion resta
+        Expresion resta(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("RESTAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion multiplicaion
+        Expresion producto(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("MULTIPLICAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion divicion
+        Expresion division(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("DIVIDIR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion enteros
+        Expresion entero(String e)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_VALOR",
+            e,
+            null,
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion identificador
+        Expresion identificador(String id)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
+            String.valueOf((tabla.getSimbolo(id)).getDireccion()),
+            null,
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion OR
+        Expresion or(Expresion c1,Expresion c2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("OR",
+            String.valueOf(c1.getDireccion()),
+            String.valueOf(c2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
 
 	//CONDICIÓN AND
 	Expresion and(Expresion c1,Expresion c2) {
@@ -193,6 +267,13 @@ parser code {:
         cuentaDirecciones = 9999;
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
+        try {
+            codigoIntermedio.abrirFicheroEscritura();
+	} catch (IOException e)
+        {
+            System.out.println(Textos.ficheroCiNoExiste);
+            codigoIntermedio.cerrarFicheroEscritura();
+        }
     }
     /*void inicializar() {
 		tabla = new Tabla();
@@ -475,7 +556,7 @@ Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias
 			:}
 			RLLAVE;
 
-=======
+//=======
 {:
     if(existeSimbolo(id)) {
 	parser.error(Textos.simboloRedeclarado);
@@ -494,7 +575,7 @@ Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias
     //generarCF();
 :}
 RLLAVE;
->>>>>>> a6193b90f2d296db3ae9d52db7e0fd0204918da7
+//>>>>>>> a6193b90f2d296db3ae9d52db7e0fd0204918da7
 BloqueSentencias::= Sentencias | ;
 
 Sentencias::= Sentencia Sentencias | Sentencia;
