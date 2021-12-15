@@ -254,7 +254,7 @@ public class parser extends java_cup.runtime.lr_parser {
         " tok:"+InformacionCodigo.token+" => "+mensaje);
     }
 
-    public static void inicializar() throws IOException {
+    public void inicializar() throws IOException {
         ts = new TablaSimbolos();
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
