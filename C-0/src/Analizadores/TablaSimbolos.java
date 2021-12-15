@@ -120,11 +120,12 @@ public class TablaSimbolos {
     }
 
     void setDireccionSimbolo(String id, int d)
-    {
-        Simbolo sim= new Simbolo(d, id);
+    {   //CAMBIO SEGUN EL LIBRO
+        Simbolo sim= getSimbolo(id);
         sim.setDireccion(d);
         insertarSimbolo(sim);
     }
+    
 
     
     

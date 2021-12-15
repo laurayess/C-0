@@ -5,11 +5,12 @@
         <group>
             <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/CodigoIntermedio.java</file>
             <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/parser.java</file>
-            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/Yylex.java</file>
-            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/TablaSimbolos.java</file>
-            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/programa.txt</file>
+            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/C-0.jflex</file>
+            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/Texto.java</file>
             <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/C-0.cup</file>
-            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/Simbolo.java</file>
+            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/Lista.java</file>
+            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/Expresion.java</file>
+            <file>file:/C:/Users/xeng_/Documents/Proyecto%20C-0/C-0/C-0/src/Analizadores/Cuadrupla.java</file>
         </group>
     </open-files>
 </project-private>
