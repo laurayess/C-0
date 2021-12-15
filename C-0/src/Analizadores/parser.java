@@ -262,6 +262,13 @@ public class parser extends java_cup.runtime.lr_parser {
         cuentaDirecciones = 9999;
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
+        try {
+            codigoIntermedio.abrirFicheroEscritura();
+	} catch (Exception e)
+        {
+            System.out.println(Textos.ficheroCiNoExiste);
+            codigoIntermedio.cerrarFicheroEscritura();
+        }
     }
     /*void inicializar() {
 		tabla = new Tabla();
@@ -306,8 +313,13 @@ public class parser extends java_cup.runtime.lr_parser {
         }
     }
 
-    void insertarSimbolo(String id) {
+    void insertarSimbolo(String id)
+    {
 		ts.insertarSimbolo(id);
+    }
+    void setDireccionSimbolo(String id,int dir)
+    {
+	ts.setDireccionSimbolo(id,dir);
     }
     
     Expresion suma(Expresion e1,Expresion e2)
@@ -475,7 +487,11 @@ class CUP$parser$actions {
 		cuentaCadenas = 0;
 		listaCadenas = new Lista();
 	}
-
+        //PENDIENTE POR DISCUTIR
+        private void addSimbolo(String id)
+        {
+            ts.addSimbolo(new Simbolo(ts.sizeSimbolos(),id));
+        }
 	//CONDICIÓN OR
 	Expresion or(Expresion c1,Expresion c2) {
 		cuentaDirecciones++;  
@@ -485,7 +501,70 @@ class CUP$parser$actions {
 		String.valueOf(cuentaDirecciones)));
 		return new Expresion(cuentaDirecciones);
 	}
-
+        void setDireccionSimbolo(String id,int dir)
+        {
+            ts.setDireccionSimbolo(id,dir);
+        }
+        //Expresion suma
+        Expresion suma(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("SUMAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion resta
+        Expresion resta(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("RESTAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion multiplicaion
+        Expresion producto(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("MULTIPLICAR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion divicion
+        Expresion division(Expresion e1,Expresion e2)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("DIVIDIR",
+            String.valueOf(e1.getDireccion()),
+            String.valueOf(e2.getDireccion()),
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion enteros
+        Expresion entero(String e)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_VALOR",
+            e,
+            null,
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
+        //Expresion identificador
+        Expresion identificador(String id)
+        {
+            cuentaDirecciones++;
+            codigoIntermedio.guardarCuadrupla(new Cuadrupla("CARGAR_DIRECCION",
+            String.valueOf((ts.getSimbolo(id)).getDireccion()),
+            null,
+            String.valueOf(cuentaDirecciones)));
+            return new Expresion(cuentaDirecciones);
+        }
 	//CONDICIÓN AND
 	Expresion and(Expresion c1,Expresion c2) {
 		cuentaDirecciones++;
@@ -611,9 +690,6 @@ class CUP$parser$actions {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
 	}
 
-        void identificador(String id){
-            System.out.println(id);
-        }
 
   private final parser parser;
 
@@ -707,14 +783,13 @@ class CUP$parser$actions {
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-                                
-				if(existeSimbolo(id)) {
-					parser.error(Texto.simboloRedeclarado);
-				} else {
-					insertarSimbolo(id);
-					
-				}
-			
+    if(existeSimbolo(id)) {
+	parser.error(Textos.simboloRedeclarado);
+    } else {
+	addSimbolo(id);
+	cuentaDirecciones++;
+	setDireccionSimbolo(id,cuentaDirecciones);
+    }
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Declaracion",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -723,12 +798,12 @@ class CUP$parser$actions {
           case 7: // NT$1 ::= 
             {
               Object RESULT =null;
+ 
+    //finPrograma();
+    //generarCadenas();
+    codigoIntermedio.cerrarFicheroEscritura(); 
+    //generarCF();
 
-				finPrograma();
-				generarCadenas();
-				//cerrarCI();
-				//generarCF();
-			
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$1",17, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -856,7 +931,7 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String e = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-				//RESULT=entero(e);
+				RESULT=entero(e);
 			
               CUP$parser$result = parser.getSymbolFactory().newSymbol("Expresion",7, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1031,7 +1106,7 @@ class CUP$parser$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Expresion c = (Expresion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 
-                        System.out.println("PROBANDO CONDICIÓN: " + c);
+                        
 			condicion(c,pilaIf.verCima());
 		
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$3",19, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
