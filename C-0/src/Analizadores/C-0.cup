@@ -10,7 +10,7 @@ import java.lang.Math;
 //Requerimientos de CUP
 parser code {:
     static TablaSimbolos ts;
-    int cuentaDirecciones;
+    static int cuentaDirecciones;
     static CodigoIntermedio codigoIntermedio;
     static String ficheroCodigoIntermedio=null;
     static String codFuente;
@@ -20,12 +20,13 @@ parser code {:
         " tok:"+InformacionCodigo.token+" => "+mensaje);
     }
 
-    /*public static void inicializar() throws IOException {
+    public static void inicializar() throws IOException {
         ts = new TablaSimbolos();
+        cuentaDirecciones = 9999;
         codigoIntermedio = new CodigoIntermedio(ficheroCodigoIntermedio);
         codigoIntermedio.abrirFicheroEscritura();
-    }*/
-    void inicializar() {
+    }
+    /*void inicializar() {
 		tabla = new Tabla();
 		cuentaWhiles = 0;
 		cuentaDirecciones = 9999;
@@ -43,22 +44,25 @@ parser code {:
                 System.out.println(Textos.ficheroCiNoExiste);
 			codigoIntermedio.cerrarFicheroEscritura();
 		}
-	}
-
+	}*/
+    boolean existeSimbolo(String id)
+    {
+        return ts.existe(id);
+    }
     public static void main(String args[]) throws Exception {
         if (args.length != 1) {
             System.out.println("Falta fichero");
         } else {
             try {
-                /*Yylex lexico = new Yylex(new FileReader(args[0]));
+                Yylex lexico = new Yylex(new FileReader(args[0]));
                 String name = (String) args[0];
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
-                new Analizador_Sintactico(lexico).parse();*/
-                Yylex lexico = new Yylex(new FileReader(args[0]));
+                new parser(lexico)(lexico).parse();
+                /*Yylex lexico = new Yylex(new FileReader(args[0]));
                 nombreFichero = (String)args[0];
-		new parser(lexico).parse();
+		new parser(lexico).parse();*/
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }

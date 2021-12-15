@@ -72,4 +72,8 @@ public class TablaSimbolos {
             System.out.println(s.getId() + " " + s.getValor());
         }
     }
+    public void addSimbolo(String sim)
+    {
+        tabla.put(tabla.size(), sim);
+    }
 }

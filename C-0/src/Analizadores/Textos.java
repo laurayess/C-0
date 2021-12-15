@@ -1,6 +1,6 @@
 package Analizadores;
 
-public class Texto
+public class Textos
 {
     static final String simboloRedeclarado = "El simbolo ya ha sido declarado anteriormente";
     static final String simboloNoDeclarado = "El simbolo no ha sido declarado previamente";
