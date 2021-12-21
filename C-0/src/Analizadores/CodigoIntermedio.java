@@ -33,7 +33,7 @@ class CodigoIntermedio {
 		
 	}   
 
-	// Abre el fichero de donde leer el c�digo intermedio
+	// Abre el fichero de donde leer el codigo intermedio
 	public void abrirFicheroLectura(){
             try {
                 ficheroLectura = new BufferedReader(new FileReader(nombreFichero));
@@ -52,7 +52,7 @@ class CodigoIntermedio {
             }
 	}
 
-	// Abre un nuevo fichero donde guardar c�digo
+	// Abre un nuevo fichero donde guardar codigo
 	public void abrirFicheroEscritura(){
             try {
                 ficheroEscritura = new PrintWriter(new BufferedWriter(new FileWriter(nombreFichero)));
@@ -142,4 +142,5 @@ class CodigoIntermedio {
 	}
 
 */
+        
 }
