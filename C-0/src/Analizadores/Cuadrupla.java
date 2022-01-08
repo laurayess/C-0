@@ -1,10 +1,10 @@
 package Analizadores;
 public class Cuadrupla {
 
-	private String nombre;
-	private String op1;
-	private String op2;
-	private String resul;
+	 String nombre;
+	 String op1;
+	 String op2;
+	 String resul;
 
 	public Cuadrupla(String n,String p1,String p2,String r)
         {

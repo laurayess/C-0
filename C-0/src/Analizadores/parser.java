@@ -264,12 +264,12 @@ public class parser extends java_cup.runtime.lr_parser {
                 String name = (String) args[0];
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
-                //inicializar();
+                inicializar();
                 new parser(lexico).parse();*/
                 Yylex lexico = new Yylex(new FileReader(args[0]));
-		nombreFichero = (String)args[0];
+                nombreFichero = (String)args[0];
 		new parser(lexico).parse();
-                
+
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }
@@ -298,24 +298,24 @@ class CUP$parser$actions {
 
 
 
-     TablaSimbolos ts;
+    TablaSimbolos ts;
 
-     int cuentaWhiles;
-     int cuentaDirecciones;
-     CodigoIntermedio codigoIntermedio;
-     String ficheroCodigoIntermedio=null;
-     String codFuente;
+    int cuentaWhiles;
+    int cuentaDirecciones;
+    CodigoIntermedio codigoIntermedio;
+    String ficheroCodigoIntermedio=null;
+    String codFuente;
 
-     int cuentaIf;
-     Pila pilaIf;
+    int cuentaIf;
+    Pila pilaIf;
 
 	//Bloque While
-     int cuentaBucle;
-     Pila pilaBucle;
+    int cuentaBucle;
+    Pila pilaBucle;
 
 	//PUTS
-     int cuentaCadenas;
-     Lista listaCadenas;
+    int cuentaCadenas;
+    Lista listaCadenas;
 
 
     void inicializar() {
@@ -331,18 +331,12 @@ class CUP$parser$actions {
                 
 		String nombre = parser.nombreFichero.substring(0,parser.nombreFichero.lastIndexOf("."));
 		codigoIntermedio = new CodigoIntermedio(nombre+".log");
-                
-                try {
+		try {
 			codigoIntermedio.abrirFicheroEscritura();
 		} catch (Exception e) {
 			System.out.println(Textos.ficheroCiNoExiste);
 			codigoIntermedio.cerrarFicheroEscritura();
 		}
-                
-                /*codigoIntermedio.abrirFicheroEscritura();
-                codigoIntermedio.cerrarFicheroEscritura();
-                System.out.println("SI LLEGA XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-                */
 	}
 
     boolean existe(String id)
@@ -550,6 +544,13 @@ class CUP$parser$actions {
 		}
 	}
 
+        void generarCF() {
+		CodigoFinal codigoFinal = new CodigoFinal(codigoIntermedio,parser.nombreFichero);
+		try {
+			codigoFinal.traducirCodigo();
+		} catch(Exception e) {}
+	}
+
 	//Método para cerrar el programa y deje de emitir instrucciones
 	void finPrograma() {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
@@ -669,7 +670,7 @@ class CUP$parser$actions {
 				finPrograma();
 				generarCadenas();
 				cerrarCI();
-				//generarCF();
+                                generarCF();
 			
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$1",17, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

@@ -41,10 +41,10 @@ action code {:
 		listaCadenas = new Lista();
                 
 		String nombre = parser.nombreFichero.substring(0,parser.nombreFichero.lastIndexOf("."));
-		codigoIntermedio = new CodigoIntermedio(nombre+".ci");
+		codigoIntermedio = new CodigoIntermedio(nombre+".log");
 		try {
 			codigoIntermedio.abrirFicheroEscritura();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println(Textos.ficheroCiNoExiste);
 			codigoIntermedio.cerrarFicheroEscritura();
 		}
@@ -255,6 +255,13 @@ action code {:
 		}
 	}
 
+        void generarCF() {
+		CodigoFinal codigoFinal = new CodigoFinal(codigoIntermedio,parser.nombreFichero);
+		try {
+			codigoFinal.traducirCodigo();
+		} catch(Exception e) {}
+	}
+
 	//Método para cerrar el programa y deje de emitir instrucciones
 	void finPrograma() {
 		codigoIntermedio.guardarCuadrupla(new Cuadrupla("FIN",null,null,null));
@@ -278,15 +285,16 @@ parser code {:
             System.out.println("Falta fichero");
         } else {
             try {
-                Yylex lexico = new Yylex(new FileReader(args[0]));
+                /*Yylex lexico = new Yylex(new FileReader(args[0]));
                 String name = (String) args[0];
                 codFuente = name.substring(0, name.lastIndexOf("."));
                 ficheroCodigoIntermedio = codFuente + ".log";
                 inicializar();
-                new parser(lexico).parse();
-                /*Yylex lexico = new Yylex(new FileReader(args[0]));
+                new parser(lexico).parse();*/
+                Yylex lexico = new Yylex(new FileReader(args[0]));
                 nombreFichero = (String)args[0];
-		new parser(lexico).parse();*/
+		new parser(lexico).parse();
+
             } catch (FileNotFoundException e1) {
                 System.out.println("Fichero no abierto");
             }
@@ -396,7 +404,7 @@ Cuerpo ::= MAIN LPAREN RPAREN LLLAVE BloqueSentencias
 				finPrograma();
 				generarCadenas();
 				cerrarCI();
-				//generarCF();
+                                generarCF();
 			:}
 			RLLAVE;
 

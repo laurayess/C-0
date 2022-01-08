@@ -27,6 +27,7 @@ import java.io.*;
 %function next_token
 %line
 %column
+%char
 
 %{
   StringBuffer string = new StringBuffer();
