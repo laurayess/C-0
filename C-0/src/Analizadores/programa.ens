@@ -15,7 +15,7 @@ BUCLE_1:                        NOP
                                 BR $3
                                 MOVE #1 , /10007
                                 CMP #0 , /10007
-                                BZ /FINBLUCLE_1
+                                BZ /FINBUCLE_1
                                 MOVE /10001 , /10008
                                 MOVE /10000 , /10009
                                 ADD /10008 , /10009
@@ -82,7 +82,7 @@ BUCLE_2:                        NOP
                                 BR $3
                                 MOVE #1 , /10034
                                 CMP #0 , /10034
-                                BZ /FINBLUCLE_2
+                                BZ /FINBUCLE_2
 BUCLE_3:                        NOP
                                 MOVE /10001 , /10035
                                 MOVE /10000 , /10036
@@ -95,7 +95,7 @@ BUCLE_3:                        NOP
                                 BR $3
                                 MOVE #1 , /10039
                                 CMP #0 , /10039
-                                BZ /FINBLUCLE_3
+                                BZ /FINBUCLE_3
                                 MOVE /10000 , /10040
                                 MOVE #1 , /10041
                                 ADD /10040 , /10041

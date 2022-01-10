@@ -512,7 +512,7 @@ class CUP$parser$actions {
 			"SALTAR_CONDICION",
 			String.valueOf(e.getDireccion()),
 			null,
-			"FINBLUCLE_"+String.valueOf(n)));
+			"FINBUCLE_"+String.valueOf(n)));
 	} 
 
 	//METODO DE CI PARA LAS INSTRUCCIONES PUTW
